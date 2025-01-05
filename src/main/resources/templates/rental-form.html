@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Rental Form</title>
+</head>
+<body>
+<h1>Rental Form</h1>
+<form action="/rentals/create" method="post">
+    <label for="game">Game:</label>
+    <select name="gameId" id="game">
+        <option value="" disabled selected>Select a game</option>
+        <!-- Dynamically populate game options -->
+        <th:block th:each="game : ${games}">
+            <option th:value="${game.id}" th:text="${game.name}"></option>
+        </th:block>
+    </select>
+    <br>
+    <label for="startDate">Start Date:</label>
+    <input type="date" name="startDate" id="startDate" required>
+    <br>
+    <label for="endDate">End Date:</label>
+    <input type="date" name="endDate" id="endDate" required>
+    <br>
+    <input type="hidden" name="userId" value="1"><!-- Hardcoded for demo -->
+    <button type="submit">Rent Game</button>
+</form>
+</body>
+</html>

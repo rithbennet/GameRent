@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Rentals History</title>
+</head>
+<body>
+<h1>Active Rentals</h1>
+<table>
+    <tr>
+        <th>Game</th>
+        <th>Duration</th>
+        <th>Price</th>
+    </tr>
+    <th:block th:each="rental : ${activeRentals}">
+        <tr>
+            <td th:text="${rental.game.name}"></td>
+            <td th:text="${rental.rentalStartDate} + ' - ' + ${rental.rentalEndDate}"></td>
+            <td th:text="${rental.totalPrice}"></td>
+        </tr>
+    </th:block>
+</table>
+
+<h1>Previous Rentals</h1>
+<table>
+    <tr>
+        <th>Game</th>
+        <th>Duration</th>
+        <th>Price</th>
+    </tr>
+    <th:block th:each="rental : ${previousRentals}">
+        <tr>
+            <td th:text="${rental.game.name}"></td>
+            <td th:text="${rental.rentalStartDate} + ' - ' + ${rental.rentalEndDate}"></td>
+            <td th:text="${rental.totalPrice}"></td>
+        </tr>
+    </th:block>
+</table>
+</body>
+</html>

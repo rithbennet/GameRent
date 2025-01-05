@@ -5,6 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "games") // Specify the table name here
@@ -15,6 +17,14 @@ public class Game {
     private String title;
     private String genre;
     private String platform;
+
+    @Column(name = "price_per_day")
+    private Double pricePerDay;
+
+    @Column(name = "release_date")
+    private LocalDate releaseDate;
+
+    private String releaseDateFormatted;
 
     // Getters and setters
     public Long getId() {
@@ -47,5 +57,29 @@ public class Game {
 
     public void setPlatform(String platform) {
         this.platform = platform;
+    }
+
+    public Double getPricePerDay() {
+        return pricePerDay;
+    }
+
+    public void setPricePerDay(Double pricePerDay) {
+        this.pricePerDay = pricePerDay;
+    }
+
+    public LocalDate getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public String getReleaseDateFormatted() {
+        return releaseDateFormatted;
+    }
+
+    public void setReleaseDateFormatted(String releaseDateFormatted) {
+        this.releaseDateFormatted = releaseDateFormatted;
     }
 }

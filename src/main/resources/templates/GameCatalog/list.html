@@ -1,24 +1,24 @@
-</head>
-<body>
-    <h1>Game Catalog</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Genre</th>
-                <th>Platform</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:if="${#lists.isEmpty(games)}">
-                <td colspan="3">No games found</td>
-            </tr>
-            <tr th:each="game : ${games}">
-                <td th:text="${game.title}">Title</td>
-                <td th:text="${game.genre}">Genre</td>
-                <td th:text="${game.platform}">Platform</td>
-            </tr>
-        </tbody>
-    </table>
-</body>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="EN">
+    <head>
+        <meta charset="UTF-8">
+        <title>Game Catalog</title>
+    </head>
+    <body>
+        <h1>Game Catalog</h1>
+        <div class="allGames">
+            <div class="singleGame" th:each="game : ${games}">
+                <h2 th:text="${game.title}">Title</h2>
+                <p th:text="${game.genre}">Genre</p>
+                <p th:text="${game.platform}">Platform</p>
+                <p
+                    th:text="'RM' + ${#numbers.formatDecimal(game.pricePerDay, 1, 'COMMA', 2, 'POINT')}">Price
+                    per Day</p>
+                <p th:text="${game.releaseDate}">Release Date</p>
+            </div>
+            <div th:if="${#lists.isEmpty(games)}">
+                <p>No games found</p>
+            </div>
+        </div>
+    </body>
 </html>

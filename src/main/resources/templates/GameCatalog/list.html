@@ -1,0 +1,24 @@
+</head>
+<body>
+    <h1>Game Catalog</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Genre</th>
+                <th>Platform</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:if="${#lists.isEmpty(games)}">
+                <td colspan="3">No games found</td>
+            </tr>
+            <tr th:each="game : ${games}">
+                <td th:text="${game.title}">Title</td>
+                <td th:text="${game.genre}">Genre</td>
+                <td th:text="${game.platform}">Platform</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

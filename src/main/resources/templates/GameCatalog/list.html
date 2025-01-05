@@ -2,10 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="EN">
     <head>
         <meta charset="UTF-8">
-        <title>Game Catalog</title>
+        <title>All Games</title>
     </head>
     <body>
-        <h1>Game Catalog</h1>
         <div class="allGames">
             <div class="singleGame" th:each="game : ${games}">
                 <h2 th:text="${game.title}">Title</h2>

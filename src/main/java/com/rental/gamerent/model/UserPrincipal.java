@@ -5,12 +5,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Optional;
 
 public class UserPrincipal implements UserDetails {
 
-    private Users user;
+    private Optional<Users> user;
 
-    public UserPrincipal(Users user) {
+    public UserPrincipal(Optional<Users> user) {
         this.user = user;
     }
 
@@ -21,12 +22,12 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return user.get().getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return user.get().getUsername();
     }
 
     @Override

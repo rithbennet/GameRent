@@ -39,6 +39,9 @@ public class Game {
     @Column(name = "requirement_storage")
     private String requirementStorage;
 
+    @Column(name = "description")
+    private String description;
+
     // Getters and setters
     public Long getId() {
         return id;
@@ -126,5 +129,13 @@ public class Game {
 
     public void setRequirementStorage(String requirementStorage) {
         this.requirementStorage = requirementStorage;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -1,28 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Rental Form</title>
+    <title>Renting Form</title>
 </head>
 <body>
-<h1>Rental Form</h1>
-<form action="/rentals/create" method="post">
-    <label for="game">Game:</label>
-    <select name="gameId" id="game">
-        <option value="" disabled selected>Select a game</option>
-        <!-- Dynamically populate game options -->
-        <th:block th:each="game : ${games}">
-            <option th:value="${game.id}" th:text="${game.name}"></option>
-        </th:block>
-    </select>
-    <br>
-    <label for="startDate">Start Date:</label>
-    <input type="date" name="startDate" id="startDate" required>
-    <br>
-    <label for="endDate">End Date:</label>
-    <input type="date" name="endDate" id="endDate" required>
-    <br>
-    <input type="hidden" name="userId" value="1"><!-- Hardcoded for demo -->
-    <button type="submit">Rent Game</button>
-</form>
+<div class="rental-container">
+    <div class="rental-card">
+        <h1>Rental Form</h1>
+
+        <!-- Game Info Section -->
+        <div class="game-info" th:if="${selectedGame}">
+            <div class="game-header">
+                <span th:text="${selectedGame.title}">Game Title</span>
+                <span class="price-info">
+                        <span th:text="'Satisfactory | $' + ${selectedGame.pricePerDay} + '/Day'">$21/Day</span>
+                    </span>
+            </div>
+        </div>
+
+        <form action="/rentals/create" method="post">
+            <!-- Hidden Fields -->
+            <input type="hidden" name="gameId" th:value="${selectedGame.id}">
+            <input type="hidden" name="userId" th:value="${userId}">
+
+            <!-- Platform Field (Read-only) -->
+            <div class="form-group">
+                <label for="platform">Platform</label>
+                <input type="text" id="platform"
+                       th:value="${selectedGame.platform}"
+                       readonly>
+            </div>
+
+            <!-- Duration Selection -->
+            <div class="form-group">
+                <label for="duration">Duration</label>
+                <select name="duration" id="duration" required>
+                    <option value="7">1 week</option>
+                    <option value="14">2 weeks</option>
+                    <option value="30">1 month</option>
+                    <option value="60">2 months</option>
+                </select>
+            </div>
+
+            <!-- Calculate dates based on duration -->
+            <input type="hidden" name="startDate" id="startDate">
+            <input type="hidden" name="endDate" id="endDate">
+
+            <button type="submit" class="rent-button">Rent Game</button>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Function to update hidden date fields based on duration
+        function updateDates() {
+            const duration = parseInt(document.getElementById('duration').value);
+            const startDate = new Date();
+            const endDate = new Date();
+            endDate.setDate(startDate.getDate() + duration);
+
+            document.getElementById('startDate').value = startDate.toISOString().split('T')[0];
+            document.getElementById('endDate').value = endDate.toISOString().split('T')[0];
+        }
+
+        // Update dates when duration changes
+        document.getElementById('duration').addEventListener('change', updateDates);
+
+        // Set initial dates
+        updateDates();
+    });
+</script>
 </body>
 </html>

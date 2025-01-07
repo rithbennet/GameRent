@@ -1,39 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Rentals History</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
 </head>
 <body>
 <h1>Active Rentals</h1>
-<table>
+<div th:if="${#lists.isEmpty(activeRentals)}">
+    <p>No active rentals found.</p>
+</div>
+<table th:if="${!#lists.isEmpty(activeRentals)}">
+    <thead>
     <tr>
-        <th>Game</th>
-        <th>Duration</th>
-        <th>Price</th>
+        <th>Rental ID</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Total Price</th>
+        <th>User ID</th>
+        <th>Game ID</th>
+        <th>Status</th>
     </tr>
-    <th:block th:each="rental : ${activeRentals}">
-        <tr>
-            <td th:text="${rental.game.name}"></td>
-            <td th:text="${rental.rentalStartDate} + ' - ' + ${rental.rentalEndDate}"></td>
-            <td th:text="${rental.totalPrice}"></td>
-        </tr>
-    </th:block>
+    </thead>
+    <tbody>
+    <tr th:each="rental : ${activeRentals}">
+        <td th:text="${rental.rentalId}"></td>
+        <td th:text="${rental.rentalStartDate}"></td>
+        <td th:text="${rental.rentalEndDate}"></td>
+        <td th:text="${rental.totalPrice}"></td>
+        <td th:text="${rental.userId}"></td>
+        <td th:text="${rental.gameId}"></td>
+        <td th:text="${rental.rentalStatus}"></td>
+    </tr>
+    </tbody>
 </table>
 
 <h1>Previous Rentals</h1>
-<table>
+<div th:if="${#lists.isEmpty(previousRentals)}">
+    <p>No previous rentals found.</p>
+</div>
+<table th:if="${!#lists.isEmpty(previousRentals)}">
+    <thead>
     <tr>
-        <th>Game</th>
-        <th>Duration</th>
-        <th>Price</th>
+        <th>Rental ID</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Total Price</th>
+        <th>User ID</th>
+        <th>Game ID</th>
+        <th>Status</th>
     </tr>
-    <th:block th:each="rental : ${previousRentals}">
-        <tr>
-            <td th:text="${rental.game.name}"></td>
-            <td th:text="${rental.rentalStartDate} + ' - ' + ${rental.rentalEndDate}"></td>
-            <td th:text="${rental.totalPrice}"></td>
-        </tr>
-    </th:block>
+    </thead>
+    <tbody>
+    <tr th:each="rental : ${previousRentals}">
+        <td th:text="${rental.rentalId}"></td>
+        <td th:text="${rental.rentalStartDate}"></td>
+        <td th:text="${rental.rentalEndDate}"></td>
+        <td th:text="${rental.totalPrice}"></td>
+        <td th:text="${rental.userId}"></td>
+        <td th:text="${rental.gameId}"></td>
+        <td th:text="${rental.rentalStatus}"></td>
+    </tr>
+    </tbody>
 </table>
 </body>
 </html>

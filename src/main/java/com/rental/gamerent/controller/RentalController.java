@@ -1,89 +1,113 @@
 package com.rental.gamerent.controller;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
+import com.rental.gamerent.model.Rental;
+import com.rental.gamerent.service.RentalService;
+import com.rental.gamerent.service.GameService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import java.math.BigDecimal;
+
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
-import com.rental.gamerent.model.Rental;
-import com.rental.gamerent.model.RentalStatus;
 
 @Controller
 @RequestMapping("/rentals")
 public class RentalController {
+    private final RentalService rentalService;
+    private final GameService gameService;
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    @Autowired
+    public RentalController(RentalService rentalService, GameService gameService) {
+        this.rentalService = rentalService;
+        this.gameService = gameService;
+    }
 
     @GetMapping("/form")
     public String showRentalForm(Model model) {
-        List<Game> games = entityManager.createQuery("from Game", Game.class).getResultList();
-        model.addAttribute("games", games);
+        model.addAttribute("games", gameService.getAllAvailableGames());
         return "rental-form";
     }
 
     @PostMapping("/create")
-    @Transactional
-    public String createRental(
+    public ResponseEntity<?> createRental(
             @RequestParam("gameId") Long gameId,
             @RequestParam("userId") Long userId,
-            @RequestParam("startDate") String startDate,
-            @RequestParam("endDate") String endDate,
-            Model model) {
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
 
-        Game game = entityManager.find(Game.class, gameId);
-        User user = entityManager.find(User.class, userId);
-
-        BigDecimal pricePerDay = game.getPrice();
-        long days = ChronoUnit.DAYS.between(LocalDate.parse(startDate), LocalDate.parse(endDate));
-        BigDecimal totalPrice = pricePerDay.multiply(BigDecimal.valueOf(days));
-
-        Rental rental = new Rental();
-        rental.setGame(game);
-        rental.setUser(user);
-        rental.setRentalStartDate(LocalDate.parse(startDate));
-        rental.setRentalEndDate(LocalDate.parse(endDate));
-        rental.setRentalStatus(RentalStatus.ACTIVE);
-        rental.setTotalPrice(totalPrice);
-
-        entityManager.persist(rental);
-        model.addAttribute("rental", rental);
-        return "rental-success";
+        try {
+            Rental rental = rentalService.createRental(gameId, userId, startDate, endDate);
+            return ResponseEntity.ok(rental);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("An unexpected error occurred");
+        }
     }
 
-    @GetMapping("/cart")
-    public String viewCart(@RequestParam("userId") Long userId, Model model) {
-        List<Rental> activeRentals = entityManager
-                .createQuery("from Rental where user.id = :userId and rentalStatus = :status", Rental.class)
-                .setParameter("userId", userId)
-                .setParameter("status", RentalStatus.ACTIVE)
-                .getResultList();
-
-        model.addAttribute("rentals", activeRentals);
-        return "cart";
+    @GetMapping("/active")
+    public ResponseEntity<List<Rental>> getActiveRentals(@RequestParam("userId") Long userId) {
+        return ResponseEntity.ok(rentalService.getActiveRentals(userId));
     }
 
-    @GetMapping("/history")
-    public String rentalHistory(@RequestParam("userId") Long userId, Model model) {
-        List<Rental> activeRentals = entityManager
-                .createQuery("from Rental where user.id = :userId and rentalStatus = :status", Rental.class)
-                .setParameter("userId", userId)
-                .setParameter("status", RentalStatus.ACTIVE)
-                .getResultList();
+    @GetMapping("/history") //hardcoded for now to test
+    public String getRentalHistory(Model model) {
+        // Hardcode userId=2 for testing since that's what's in your database
+        Long testUserId = 2L;
 
-        List<Rental> previousRentals = entityManager
-                .createQuery("from Rental where user.id = :userId and rentalStatus = :status", Rental.class)
-                .setParameter("userId", userId)
-                .setParameter("status", RentalStatus.RETURNED)
-                .getResultList();
+        try {
+            List<Rental> activeRentals = rentalService.getActiveRentals(testUserId);
+            List<Rental> previousRentals = rentalService.getPreviousRentals(testUserId);
 
-        model.addAttribute("activeRentals", activeRentals);
-        model.addAttribute("previousRentals", previousRentals);
-        return "rentals-history";
+            // Add debug logging
+            System.out.println("Active rentals found: " + (activeRentals != null ? activeRentals.size() : "null"));
+            System.out.println("Previous rentals found: " + (previousRentals != null ? previousRentals.size() : "null"));
+
+            model.addAttribute("activeRentals", activeRentals);
+            model.addAttribute("previousRentals", previousRentals);
+
+            return "rental-history";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("error", "Failed to load rental history: " + e.getMessage());
+            return "rental-history";
+        }
+    }
+//    @GetMapping("/history")
+//    public String getRentalHistory(@RequestParam("userId") Long userId, Model model) {
+//        try {
+//            List<Rental> activeRentals = rentalService.getActiveRentals(userId);
+//            List<Rental> previousRentals = rentalService.getPreviousRentals(userId);
+//
+//            model.addAttribute("activeRentals", activeRentals);
+//            model.addAttribute("previousRentals", previousRentals);
+//
+//            return "rental-history";  // Make sure this matches your template name
+//        } catch (Exception e) {
+//            // Add error attribute if something goes wrong
+//            model.addAttribute("error", "Failed to load rental history");
+//            return "error";  // You should have an error template
+//        }
+//    }
+
+    @PostMapping("/{rentalId}/return")
+    public ResponseEntity<?> returnRental(@PathVariable Long rentalId) {
+        try {
+            Rental rental = rentalService.returnRental(rentalId);
+            return ResponseEntity.ok(rental);
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleException(Exception e) {
+        // Log the exception here
+        return ResponseEntity.internalServerError().body("An unexpected error occurred");
     }
 }

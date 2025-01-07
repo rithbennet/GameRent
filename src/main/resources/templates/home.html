@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="EN">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Game rent Homepage</title>
 </head>
 <body>
 <h1>Welcome to Game rent</h1>
-<div sec:authorize="hasRole('USER')">Text visible to user.</div>
 <div sec:authorize="hasRole('ADMIN')">Text visible to admin.</div>
+<div sec:authorize="hasRole('CUSTOMER')">Text visible to customer.</div>
 <p th:text="'Hello, ' + ${username} + '!'"></p>
 <a th:href="@{/logout}">Click here to logout</a>
 </body>

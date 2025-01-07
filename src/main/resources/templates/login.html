@@ -1,20 +1,187 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="EN">
-<head>
-    <title>Spring Security Example </title>
-</head>
-<body>
-<h1>Plz Login deez, i added</h1>
-<div th:if="${param.error}">
-    Invalid username and password.
-</div>
-<div th:if="${param.logout}">
-    You have been logged out.
-</div>
-<form th:action="@{/login}" method="post">
-    <div><label> User Name : <input type="text" name="username"/> </label></div>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
-    <div><input type="submit" value="Sign In"/></div>
-</form>
-</body>
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  lang="en"
+  xmlns:th="https://www.thymeleaf.org"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        overflow: hidden;
+      }
+      .left-side,
+      .right-side {
+        flex: 1;
+        transition: all 0.5s ease;
+      }
+      .left-side {
+        background: url("./images/loginPattern.png") no-repeat center center;
+        background-size: cover;
+      }
+      .right-side {
+        background-color: #202132;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+      }
+      .form-container {
+        background-color: #14151f;
+        gap: 17px;
+        padding: 50px;
+        border-radius: 60px;
+        box-shadow: 4px 6px rgba(0, 0, 0, 0.2);
+        color: #e9eff1;
+        width: 400px;
+      }
+      .form-container h2 {
+        color: #e9eff1;
+      }
+      .form-control {
+        height: 40px;
+      }
+      .register-link,
+      .login-link {
+        color: #007bff;
+        cursor: pointer;
+      }
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="left-side" id="left-side"></div>
+    <div class="right-side" id="right-side">
+      <div class="form-container" id="login-form">
+        <h2 class="text-center mb-4">Login</h2>
+        <!-- Error and logout messages -->
+        <div th:if="${param.error}" class="alert alert-danger" role="alert">
+          Invalid username and password.
+        </div>
+        <div th:if="${param.logout}" class="alert alert-success" role="alert">
+          You have been logged out.
+        </div>
+        <!-- Login form -->
+        <form th:action="@{/login}" method="post">
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input
+              type="text"
+              class="form-control"
+              id="username"
+              name="username"
+              placeholder="Enter your username"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              required
+            />
+          </div>
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary">Sign In</button>
+          </div>
+        </form>
+        <p class="text-center mt-3">
+          No account?
+          <span class="register-link" onclick="showRegister()"
+            >Register here</span
+          >
+        </p>
+      </div>
+      <div class="form-container hidden" id="register-form">
+        <h2 class="text-center mb-4">Register</h2>
+        <form th:action="@{/register}" method="POST">
+          <div class="mb-3">
+            <label for="reg-username" class="form-label">Username</label>
+            <input
+              type="text"
+              class="form-control"
+              id="reg-username"
+              name="username"
+              placeholder="Enter your username"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="reg-password" class="form-label">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="reg-password"
+              name="password"
+              placeholder="Enter your password"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="reg-confirm-password" class="form-label"
+              >Confirm Password</label
+            >
+            <input
+              type="password"
+              class="form-control"
+              id="reg-confirm-password"
+              name="confirmPassword"
+              placeholder="Confirm your password"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="reg-email" class="form-label">Email</label>
+            <input
+              type="email"
+              class="form-control"
+              id="reg-email"
+              name="email"
+              placeholder="Enter your email"
+              required
+            />
+          </div>
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary">Register</button>
+          </div>
+        </form>
+        <p class="text-center mt-3">
+          Already have an account?
+          <span class="login-link" onclick="showLogin()">Login here</span>
+        </p>
+      </div>
+    </div>
+    <script>
+      function showRegister() {
+        document.getElementById("login-form").classList.add("hidden");
+        document.getElementById("register-form").classList.remove("hidden");
+        document.getElementById("left-side").style.flex = "1";
+        document.getElementById("right-side").style.flex = "1";
+      }
+
+      function showLogin() {
+        document.getElementById("register-form").classList.add("hidden");
+        document.getElementById("login-form").classList.remove("hidden");
+        document.getElementById("left-side").style.flex = "1";
+        document.getElementById("right-side").style.flex = "1";
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>

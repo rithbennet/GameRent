@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="EN">
+    <head>
+        <meta charset="UTF-8">
+        <title>Game Details</title>
+    </head>
+    <body>
+        <h1 th:text="${game.title}">Game Title</h1>
+        <p><strong>Genre:</strong> <span
+                th:text="${game.genre}">Genre</span></p>
+        <p><strong>Platform:</strong> <span
+                th:text="${game.platform}">Platform</span></p>
+        <p><strong>Price per Day:</strong> <span
+                th:text="'RM' + ${#numbers.formatDecimal(game.pricePerDay, 1, 'COMMA', 2, 'POINT')}">Price</span></p>
+        <p><strong>Release Date:</strong> <span
+                th:text="${game.releaseDateFormatted}">Release Date</span></p>
+        <a th:href="@{/games}">Back to Game List</a>
+    </body>
+</html>

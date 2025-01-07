@@ -1,12 +1,13 @@
 package com.rental.gamerent.model;
 
+import java.time.LocalDate;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.Column;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "games") // Specify the table name here
@@ -25,6 +26,18 @@ public class Game {
     private LocalDate releaseDate;
 
     private String releaseDateFormatted;
+
+    @Column(name = "requirement_memory")
+    private String requirementMemory;
+
+    @Column(name = "requirement_processor")
+    private String requirementProcessor;
+
+    @Column(name = "requirement_graphics")
+    private String requirementGraphics;
+
+    @Column(name = "requirement_storage")
+    private String requirementStorage;
 
     // Getters and setters
     public Long getId() {
@@ -81,5 +94,37 @@ public class Game {
 
     public void setReleaseDateFormatted(String releaseDateFormatted) {
         this.releaseDateFormatted = releaseDateFormatted;
+    }
+
+    public String getRequirementMemory() {
+        return requirementMemory;
+    }
+
+    public void setRequirementMemory(String requirementMemory) {
+        this.requirementMemory = requirementMemory;
+    }
+
+    public String getRequirementProcessor() {
+        return requirementProcessor;
+    }
+
+    public void setRequirementProcessor(String requirementProcessor) {
+        this.requirementProcessor = requirementProcessor;
+    }
+
+    public String getRequirementGraphics() {
+        return requirementGraphics;
+    }
+
+    public void setRequirementGraphics(String requirementGraphics) {
+        this.requirementGraphics = requirementGraphics;
+    }
+
+    public String getRequirementStorage() {
+        return requirementStorage;
+    }
+
+    public void setRequirementStorage(String requirementStorage) {
+        this.requirementStorage = requirementStorage;
     }
 }

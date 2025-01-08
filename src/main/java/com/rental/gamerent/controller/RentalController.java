@@ -27,7 +27,7 @@ public class RentalController {
 
     @GetMapping("/form")
     public String showRentalForm(Model model) {
-        model.addAttribute("games", gameService.getAllAvailableGames());
+        model.addAttribute("games", gameService.getAllGames());
         return "rental-form";
     }
 

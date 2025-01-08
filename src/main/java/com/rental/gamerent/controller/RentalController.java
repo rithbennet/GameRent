@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -79,23 +80,6 @@ public class RentalController {
             return "rental-history";
         }
     }
-    // @GetMapping("/history")
-    // public String getRentalHistory(@RequestParam("userId") Long userId, Model
-    // model) {
-    // try {
-    // List<Rental> activeRentals = rentalService.getActiveRentals(userId);
-    // List<Rental> previousRentals = rentalService.getPreviousRentals(userId);
-    //
-    // model.addAttribute("activeRentals", activeRentals);
-    // model.addAttribute("previousRentals", previousRentals);
-    //
-    // return "rental-history"; // Make sure this matches your template name
-    // } catch (Exception e) {
-    // // Add error attribute if something goes wrong
-    // model.addAttribute("error", "Failed to load rental history");
-    // return "error"; // You should have an error template
-    // }
-    // }
 
     @PostMapping("/{rentalId}/return")
     public ResponseEntity<?> returnRental(@PathVariable Long rentalId) {
@@ -106,6 +90,34 @@ public class RentalController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @GetMapping("/cart")
+    public String showCart(Model model) {
+        Long testUserId = 2L;
+
+        try {
+            List<Rental> cartItems = rentalService.getActiveRentals(testUserId);
+            
+            // Fetch game details for each rental
+            cartItems.forEach(rental -> {
+                Game game = gameService.getGameById(rental.getGameId());
+                rental.setGame(game);  // Assuming you have a setGame method in Rental
+            });
+
+            model.addAttribute("cartItems", cartItems);
+
+            BigDecimal totalPrice = cartItems.stream()
+                    .map(Rental::getTotalPrice)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+            model.addAttribute("totalPrice", totalPrice);
+
+            return "cart";
+        } catch (Exception e) {
+            model.addAttribute("error", "Failed to load cart: " + e.getMessage());
+            return "cart";
+        }
+    }
+
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleException(Exception e) {

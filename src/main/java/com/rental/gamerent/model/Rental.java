@@ -36,6 +36,17 @@ public class Rental {
     @Column(name = "rental_status")
     private RentalStatus rentalStatus;
 
+    @Transient
+    private Game game;
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
     // Getters and Setters
 
     public Long getRentalId() {

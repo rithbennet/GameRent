@@ -1,11 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Rental Success</title>
 </head>
 <body>
-<h1>Rental Successful!</h1>
-<p>Your rental has been successfully created.</p>
-<a href="/rentals/cart">Go to Cart</a>
+    <h1>Rental Successful!</h1>
+    <div th:if="${rental}">
+        <p>Your rental has been successfully created.</p>
+        <p>Start Date: <span th:text="${rental.rentalStartDate}"></span></p>
+        <p>End Date: <span th:text="${rental.rentalEndDate}"></span></p>
+        <p>Total Price: $<span th:text="${rental.totalPrice}"></span></p>
+    </div>
+    <a href="/rentals/cart">Go to Cart</a>
+    <a href="/games">Back to Game List</a>
 </body>
 </html>

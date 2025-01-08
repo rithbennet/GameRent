@@ -26,23 +26,27 @@ public class RentalController {
         this.gameService = gameService;
     }
 
-
     @PostMapping("/create")
-    public ResponseEntity<?> createRental(
+    public String createRental(
             @RequestParam("gameId") Long gameId,
             @RequestParam("userId") Long userId,
             @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            Model model) {
 
         try {
             Rental rental = rentalService.createRental(gameId, userId, startDate, endDate);
-            return ResponseEntity.ok(rental);
+            model.addAttribute("rental", rental);
+            return "rental-success"; // Return the success view
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            model.addAttribute("error", e.getMessage());
+            return "rental-form"; // Return to form with error
         } catch (IllegalStateException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            model.addAttribute("error", e.getMessage());
+            return "rental-form"; // Return to form with error
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("An unexpected error occurred");
+            model.addAttribute("error", "An unexpected error occurred");
+            return "rental-form"; // Return to form with error
         }
     }
 
@@ -51,7 +55,7 @@ public class RentalController {
         return ResponseEntity.ok(rentalService.getActiveRentals(userId));
     }
 
-    @GetMapping("/history") //hardcoded for now to test
+    @GetMapping("/history") // hardcoded for now to test
     public String getRentalHistory(Model model) {
         // Hardcode userId=2 for testing since that's what's in your database
         Long testUserId = 2L;
@@ -62,7 +66,8 @@ public class RentalController {
 
             // Add debug logging
             System.out.println("Active rentals found: " + (activeRentals != null ? activeRentals.size() : "null"));
-            System.out.println("Previous rentals found: " + (previousRentals != null ? previousRentals.size() : "null"));
+            System.out
+                    .println("Previous rentals found: " + (previousRentals != null ? previousRentals.size() : "null"));
 
             model.addAttribute("activeRentals", activeRentals);
             model.addAttribute("previousRentals", previousRentals);
@@ -74,22 +79,23 @@ public class RentalController {
             return "rental-history";
         }
     }
-//    @GetMapping("/history")
-//    public String getRentalHistory(@RequestParam("userId") Long userId, Model model) {
-//        try {
-//            List<Rental> activeRentals = rentalService.getActiveRentals(userId);
-//            List<Rental> previousRentals = rentalService.getPreviousRentals(userId);
-//
-//            model.addAttribute("activeRentals", activeRentals);
-//            model.addAttribute("previousRentals", previousRentals);
-//
-//            return "rental-history";  // Make sure this matches your template name
-//        } catch (Exception e) {
-//            // Add error attribute if something goes wrong
-//            model.addAttribute("error", "Failed to load rental history");
-//            return "error";  // You should have an error template
-//        }
-//    }
+    // @GetMapping("/history")
+    // public String getRentalHistory(@RequestParam("userId") Long userId, Model
+    // model) {
+    // try {
+    // List<Rental> activeRentals = rentalService.getActiveRentals(userId);
+    // List<Rental> previousRentals = rentalService.getPreviousRentals(userId);
+    //
+    // model.addAttribute("activeRentals", activeRentals);
+    // model.addAttribute("previousRentals", previousRentals);
+    //
+    // return "rental-history"; // Make sure this matches your template name
+    // } catch (Exception e) {
+    // // Add error attribute if something goes wrong
+    // model.addAttribute("error", "Failed to load rental history");
+    // return "error"; // You should have an error template
+    // }
+    // }
 
     @PostMapping("/{rentalId}/return")
     public ResponseEntity<?> returnRental(@PathVariable Long rentalId) {

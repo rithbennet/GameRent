@@ -51,6 +51,7 @@ public class GameController {
     public String showRentalForm(@PathVariable("id") Long id, Model model) {
         Game selectedGame = gameService.getGameById(id);
         model.addAttribute("selectedGame", selectedGame);
+        model.addAttribute("userId", 2L); // Hardcoded for now, replace with actual user ID later
         return "rental-form";
     }
 }

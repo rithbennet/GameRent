@@ -3,8 +3,10 @@
     <head>
         <meta charset="UTF-8">
         <title>All Games</title>
+        <link rel="stylesheet" th:href="@{/css/styles.css}">
     </head>
     <body>
+        <button id="openModalButton">Add New Game</button>
         <div class="allGames">
             <div class="singleGame" th:each="game : ${games}"
                 th:onclick="|window.location.href='/games/' + ${game.id}|">
@@ -20,5 +22,45 @@
                 <p>No games found</p>
             </div>
         </div>
+        <!-- Modal -->
+        <div id="addGameModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Add New Game</h2>
+                <form th:action="@{/games}" method="post">
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" name="title" required>
+                    <label for="genre">Genre:</label>
+                    <input type="text" id="genre" name="genre" required>
+                    <label for="platform">Platform:</label>
+                    <input type="text" id="platform" name="platform" required>
+                    <label for="pricePerDay">Price per Day:</label>
+                    <input type="number" id="pricePerDay" name="pricePerDay"
+                        required>
+                    <label for="releaseDate">Release Date:</label>
+                    <input type="date" id="releaseDate" name="releaseDate"
+                        required>
+                    <label for="requirementMemory">Memory Requirement:</label>
+                    <input type="text" id="requirementMemory"
+                        name="requirementMemory" required>
+                    <label for="requirementProcessor">Processor
+                        Requirement:</label>
+                    <input type="text" id="requirementProcessor"
+                        name="requirementProcessor" required>
+                    <label for="requirementGraphics">Graphics
+                        Requirement:</label>
+                    <input type="text" id="requirementGraphics"
+                        name="requirementGraphics" required>
+                    <label for="requirementStorage">Storage Requirement:</label>
+                    <input type="text" id="requirementStorage"
+                        name="requirementStorage" required>
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description"
+                        required></textarea>
+                    <button type="submit">Add Game</button>
+                </form>
+            </div>
+        </div>
+        <script th:src="@{/js/modal.js}"></script>
     </body>
 </html>

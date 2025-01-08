@@ -1,12 +1,13 @@
 package com.rental.gamerent.service;
 
-import com.rental.gamerent.model.Game;
-import com.rental.gamerent.repo.GameRepo;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.rental.gamerent.model.Game;
+import com.rental.gamerent.repo.GameRepo;
 
 @Service
 public class GameService {
@@ -26,5 +27,9 @@ public class GameService {
     public Game getGameById(Long id) {
         Optional<Game> game = gameRepo.findById(id);
         return game.orElse(null);
+    }
+
+    public void saveGame(Game game) {
+        gameRepo.save(game);
     }
 }

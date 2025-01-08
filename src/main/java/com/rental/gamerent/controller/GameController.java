@@ -7,10 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.stream.Collectors; // Add this import statement
+import java.util.stream.Collectors;
 
 @Controller
 public class GameController {
@@ -36,5 +38,11 @@ public class GameController {
         game.setReleaseDateFormatted(game.getReleaseDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         model.addAttribute("game", game);
         return "GameCatalog/details";
+    }
+
+    @PostMapping("/games")
+    public String addGame(@ModelAttribute Game game) {
+        gameService.saveGame(game);
+        return "redirect:/games";
     }
 }

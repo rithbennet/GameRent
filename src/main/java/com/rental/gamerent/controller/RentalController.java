@@ -97,11 +97,11 @@ public class RentalController {
 
         try {
             List<Rental> cartItems = rentalService.getActiveRentals(testUserId);
-            
+
             // Fetch game details for each rental
             cartItems.forEach(rental -> {
                 Game game = gameService.getGameById(rental.getGameId());
-                rental.setGame(game);  // Assuming you have a setGame method in Rental
+                rental.setGame(game); // Assuming you have a setGame method in Rental
             });
 
             model.addAttribute("cartItems", cartItems);
@@ -118,6 +118,12 @@ public class RentalController {
         }
     }
 
+    @GetMapping("/checkout")
+    public String showCheckoutPage(Model model) {
+        model.addAttribute("message", "You have checked out successfully!");
+        return "checkout-success"; // This will map to a Thymeleaf template
+    }
+    
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleException(Exception e) {

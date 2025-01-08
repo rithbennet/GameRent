@@ -1,5 +1,6 @@
 package com.rental.gamerent.controller;
 
+import com.rental.gamerent.model.Game;
 import com.rental.gamerent.model.Rental;
 import com.rental.gamerent.service.RentalService;
 import com.rental.gamerent.service.GameService;
@@ -25,11 +26,6 @@ public class RentalController {
         this.gameService = gameService;
     }
 
-    @GetMapping("/form")
-    public String showRentalForm(Model model) {
-        model.addAttribute("games", gameService.getAllGames());
-        return "rental-form";
-    }
 
     @PostMapping("/create")
     public ResponseEntity<?> createRental(

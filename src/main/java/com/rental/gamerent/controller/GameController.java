@@ -31,6 +31,7 @@ public class GameController {
         model.addAttribute("games", games);
         return "GameCatalog/list";
     }
+    
 
     @GetMapping("/games/{id}")
     public String gameDetails(@PathVariable Long id, Model model) {
@@ -44,5 +45,12 @@ public class GameController {
     public String addGame(@ModelAttribute Game game) {
         gameService.saveGame(game);
         return "redirect:/games";
+    }
+
+    @GetMapping("/games/{id}/rent")
+    public String showRentalForm(@PathVariable("id") Long id, Model model) {
+        Game selectedGame = gameService.getGameById(id);
+        model.addAttribute("selectedGame", selectedGame);
+        return "rental-form";
     }
 }

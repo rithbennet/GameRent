@@ -5,7 +5,9 @@
                 <title>Game Details</title>
         </head>
         <body>
-                <button id="rentGameButton">Rent Game</button>
+                <a th:href="@{/games/{id}/rent(id=${game.id})}" class="button" id="rentGameButton">
+                           Rent Game
+                    </a>
                 <button id="addToFavorites">Add to favorites</button>
                 <h1 th:text="${game.title}">Game Title</h1>
                 <p><strong>Genre:</strong> <span

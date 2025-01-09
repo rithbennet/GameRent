@@ -26,19 +26,15 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().authenticated()
-                )
+                        .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login") // Custom login page
                         .defaultSuccessUrl("/home", true) // Redirect to /home after login
-                        .permitAll()
-                )
-                .logout(LogoutConfigurer::permitAll
-                );
+                        .permitAll())
+                .logout(LogoutConfigurer::permitAll);
 
         return http.build();
     }
-
 
     @Bean
     public AuthenticationProvider authenticationProvider() {

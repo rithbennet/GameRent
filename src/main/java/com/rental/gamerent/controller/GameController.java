@@ -1,18 +1,21 @@
 package com.rental.gamerent.controller;
 
-import com.rental.gamerent.model.Game;
-import com.rental.gamerent.service.GameService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.rental.gamerent.model.Game;
+import com.rental.gamerent.service.GameService;
 
 @Controller
 public class GameController {
@@ -38,6 +41,13 @@ public class GameController {
         game.setReleaseDateFormatted(game.getReleaseDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         model.addAttribute("game", game);
         return "GameCatalog/details";
+    }
+
+    @GetMapping("/api/games/{id}")
+    @ResponseBody
+    public ResponseEntity<Game> getGameDetails(@PathVariable Long id) {
+        Game game = gameService.getGameById(id);
+        return ResponseEntity.ok(game);
     }
 
     @PostMapping("/games")

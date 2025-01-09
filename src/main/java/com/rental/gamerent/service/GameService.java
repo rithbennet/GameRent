@@ -32,4 +32,8 @@ public class GameService {
     public void saveGame(Game game) {
         gameRepo.save(game);
     }
+
+    public void deleteGame(Long id) {
+        gameRepo.deleteById(id);
+    }
 }

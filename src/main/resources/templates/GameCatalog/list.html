@@ -4,6 +4,11 @@
         <meta charset="UTF-8">
         <title>All Games</title>
         <link rel="stylesheet" th:href="@{/css/styles.css}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+            rel="stylesheet">
     </head>
     <body>
         <button id="openModalButton">Add New Game</button>
@@ -11,114 +16,171 @@
             <div class="singleGame" th:each="game : ${games}">
                 <div th:onclick="|window.location.href='/games/' + ${game.id}|">
                     <h2 th:text="${game.title}">Title</h2>
-                    <p th:text="${game.genre}">Genre</p>
-                    <p th:text="${game.platform}">Platform</p>
-                    <p
-                        th:text="'RM' + ${#numbers.formatDecimal(game.pricePerDay, 1, 'COMMA', 2, 'POINT')}">Price
-                        per Day</p>
-                    <p th:text="${game.releaseDateFormatted}">Release Date</p>
+                    <div class="detailsDiv">
+                        <div class="detailsDivRow">
+                            <div class="dataDiv">
+                                <svg width="17" height="16"
+                                    viewBox="0 0 17 16" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M6.72222 0.658569H1.38889C1.15314 0.658569 0.927048 0.746367 0.760349 0.902647C0.59365 1.05893 0.5 1.27089 0.5 1.4919V6.4919C0.5 6.71292 0.59365 6.92488 0.760349 7.08116C0.927048 7.23744 1.15314 7.32524 1.38889 7.32524H6.72222C6.95797 7.32524 7.18406 7.23744 7.35076 7.08116C7.51746 6.92488 7.61111 6.71292 7.61111 6.4919V1.4919C7.61111 1.27089 7.51746 1.05893 7.35076 0.902647C7.18406 0.746367 6.95797 0.658569 6.72222 0.658569ZM5.83333 5.65857H2.27778V2.32524H5.83333V5.65857ZM15.6111 0.658569H10.2778C10.042 0.658569 9.81594 0.746367 9.64924 0.902647C9.48254 1.05893 9.38889 1.27089 9.38889 1.4919V6.4919C9.38889 6.71292 9.48254 6.92488 9.64924 7.08116C9.81594 7.23744 10.042 7.32524 10.2778 7.32524H15.6111C15.8469 7.32524 16.073 7.23744 16.2397 7.08116C16.4064 6.92488 16.5 6.71292 16.5 6.4919V1.4919C16.5 1.27089 16.4064 1.05893 16.2397 0.902647C16.073 0.746367 15.8469 0.658569 15.6111 0.658569ZM14.7222 5.65857H11.1667V2.32524H14.7222V5.65857ZM6.72222 8.9919H1.38889C1.15314 8.9919 0.927048 9.0797 0.760349 9.23598C0.59365 9.39226 0.5 9.60422 0.5 9.82524V14.8252C0.5 15.0462 0.59365 15.2582 0.760349 15.4145C0.927048 15.5708 1.15314 15.6586 1.38889 15.6586H6.72222C6.95797 15.6586 7.18406 15.5708 7.35076 15.4145C7.51746 15.2582 7.61111 15.0462 7.61111 14.8252V9.82524C7.61111 9.60422 7.51746 9.39226 7.35076 9.23598C7.18406 9.0797 6.95797 8.9919 6.72222 8.9919ZM5.83333 13.9919H2.27778V10.6586H5.83333V13.9919ZM12.9444 8.9919C10.9836 8.9919 9.38889 10.4869 9.38889 12.3252C9.38889 14.1636 10.9836 15.6586 12.9444 15.6586C14.9053 15.6586 16.5 14.1636 16.5 12.3252C16.5 10.4869 14.9053 8.9919 12.9444 8.9919ZM12.9444 13.9919C11.964 13.9919 11.1667 13.2444 11.1667 12.3252C11.1667 11.4061 11.964 10.6586 12.9444 10.6586C13.9249 10.6586 14.7222 11.4061 14.7222 12.3252C14.7222 13.2444 13.9249 13.9919 12.9444 13.9919Z"
+                                        fill="#E9EFF1" />
+                                </svg><p th:text="${game.genre}">Genre</p>
+                            </div>
+                            <div class="dataDiv">
+                                <svg width="18" height="19"
+                                    viewBox="0 0 18 19" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M15.5162 0.402466H1.82252C0.982273 0.402466 0.282715 1.11335 0.282715 2.01979V12.7869C0.282715 13.2268 0.449236 13.6476 0.737104 13.9536C1.02315 14.2577 1.41376 14.4351 1.82252 14.4351H6.01132C5.90855 16.0025 5.32866 16.9334 5.30055 16.9782C5.15786 17.1892 5.13967 17.4705 5.24991 17.703C5.36048 17.9362 5.58622 18.0853 5.83029 18.0853H11.5084C11.7526 18.0853 11.9785 17.9311 12.089 17.6976C12.1992 17.4648 12.1807 17.1937 12.0376 16.9827C12.0089 16.9372 11.4281 16.0025 11.3251 14.4351H15.5162C16.3674 14.4351 17.0349 13.6848 17.0349 12.7869V2.01979C17.0349 1.11335 16.3674 0.402466 15.5162 0.402466ZM1.82252 1.79101H15.5162C15.6477 1.79101 15.7395 1.88452 15.7395 2.01979V9.47006H1.57814V2.01979C1.57814 1.87742 1.69522 1.79101 1.82252 1.79101ZM10.4669 16.6968H6.87062C7.06909 16.1393 7.26035 15.3819 7.31067 14.4351H10.0257C10.0762 15.3819 10.2679 16.1393 10.4669 16.6968ZM15.5162 13.0466H1.82252C1.69098 13.0466 1.57814 12.925 1.57814 12.7869V10.8586H15.7395V12.7869C15.7395 12.9183 15.6524 13.0466 15.5162 13.0466Z"
+                                        fill="#E9EFF1" />
+                                </svg>
+                                <p th:text="${game.platform}">Platform</p>
+                            </div>
+                        </div>
+                        <div class="detailsDivRow">
+                            <div class="dataDiv"><svg width="20" height="20"
+                                    viewBox="0 0 20 20" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M9.45038 20V0H10.7023V20H9.45038ZM13.0611 6.39844C12.9898 5.71615 12.6896 5.1849 12.1603 4.80469C11.6361 4.42448 10.9542 4.23438 10.1145 4.23438C9.52417 4.23438 9.01781 4.32552 8.59542 4.50781C8.17303 4.6901 7.84987 4.9375 7.62595 5.25C7.40204 5.5625 7.28753 5.91927 7.28244 6.32031C7.28244 6.65365 7.35623 6.94271 7.50382 7.1875C7.65649 7.43229 7.8626 7.64062 8.12214 7.8125C8.38168 7.97917 8.66921 8.11979 8.98473 8.23438C9.30025 8.34896 9.61832 8.44531 9.93893 8.52344L11.4046 8.89844C11.9949 9.03906 12.5623 9.22917 13.1069 9.46875C13.6565 9.70833 14.1476 10.0104 14.5802 10.375C15.0178 10.7396 15.3639 11.1797 15.6183 11.6953C15.8728 12.2109 16 12.8151 16 13.5078C16 14.4453 15.7659 15.2708 15.2977 15.9844C14.8295 16.6927 14.1527 17.2474 13.2672 17.6484C12.3868 18.0443 11.3206 18.2422 10.0687 18.2422C8.85242 18.2422 7.79644 18.0495 6.90076 17.6641C6.01018 17.2786 5.31298 16.7161 4.80916 15.9766C4.31043 15.237 4.04071 14.3359 4 13.2734H6.78626C6.82697 13.8307 6.99491 14.2943 7.29008 14.6641C7.58524 15.0339 7.96947 15.3099 8.44275 15.4922C8.92112 15.6745 9.45547 15.7656 10.0458 15.7656C10.6616 15.7656 11.201 15.6719 11.6641 15.4844C12.1323 15.2917 12.4987 15.026 12.7634 14.6875C13.028 14.3437 13.1629 13.9427 13.1679 13.4844C13.1629 13.0677 13.0433 12.724 12.8092 12.4531C12.5751 12.1771 12.2468 11.9479 11.8244 11.7656C11.4071 11.5781 10.9186 11.4115 10.3588 11.2656L8.58015 10.7969C7.29262 10.4583 6.27481 9.94531 5.52672 9.25781C4.78372 8.5651 4.41221 7.64583 4.41221 6.5C4.41221 5.55729 4.66158 4.73177 5.16031 4.02344C5.66412 3.3151 6.3486 2.76563 7.21374 2.375C8.07888 1.97917 9.05852 1.78125 10.1527 1.78125C11.2621 1.78125 12.2341 1.97917 13.0687 2.375C13.9084 2.76563 14.5674 3.3099 15.0458 4.00781C15.5242 4.70052 15.771 5.4974 15.7863 6.39844H13.0611Z"
+                                        fill="white" />
+                                </svg>
+
+                                <p
+                                    th:text="'RM' + ${#numbers.formatDecimal(game.pricePerDay, 1, 'COMMA', 2, 'POINT')}">Price
+                                    per Day</p>
+                            </div>
+                            <div class="dataDiv"><svg width="18" height="20"
+                                    viewBox="0 0 18 20" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        clip-rule="evenodd"
+                                        d="M15.4179 2.71221H14.4855V0.829285H12.6208V2.71221H5.16184V0.829285H3.2971V2.71221H2.36473C1.33913 2.71221 0.5 3.55953 0.5 4.59514V17.7756C0.5 18.8112 1.33913 19.6586 2.36473 19.6586H15.4179C16.4435 19.6586 17.2826 18.8112 17.2826 17.7756V4.59514C17.2826 3.55953 16.4435 2.71221 15.4179 2.71221ZM15.4179 17.7756H2.36473V7.41953H15.4179V17.7756Z"
+                                        fill="#E9EFF1" />
+                                    <path
+                                        d="M8.89133 9.30243H4.22949V14.0097H8.89133V9.30243Z"
+                                        fill="#E9EFF1" />
+                                </svg>
+
+                                <p
+                                    th:text="${game.releaseDateFormatted}">Release
+                                    Date</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <button type="button" class="editButton"
-                    th:attr="data-id=${game.id}">Edit</button>
-                <button type="button" class="deleteButton"
-                    th:attr="data-id=${game.id},data-title=${game.title}">Delete</button>
+                <div class="buttonDiv">
+                    <button type="button" class="editButton"
+                        th:attr="data-id=${game.id}">Edit</button>
+                    <button type="button" class="deleteButton"
+                        th:attr="data-id=${game.id},data-title=${game.title}">Delete</button>
+                </div>
+                <div th:if="${#lists.isEmpty(games)}">
+                    <p>No games found</p>
+                </div>
             </div>
-            <div th:if="${#lists.isEmpty(games)}">
-                <p>No games found</p>
+            <!-- Add Game Modal -->
+            <div id="addGameModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Add New Game</h2>
+                    <form th:action="@{/games}" method="post">
+                        <label for="title">Title:</label>
+                        <input type="text" id="title" name="title" required>
+                        <label for="genre">Genre:</label>
+                        <input type="text" id="genre" name="genre" required>
+                        <label for="platform">Platform:</label>
+                        <input type="text" id="platform" name="platform"
+                            required>
+                        <label for="pricePerDay">Price per Day:</label>
+                        <input type="number" id="pricePerDay"
+                            name="pricePerDay"
+                            required>
+                        <label for="releaseDate">Release Date:</label>
+                        <input type="date" id="releaseDate"
+                            name="releaseDate"
+                            required>
+                        <label for="requirementMemory">Memory
+                            Requirement:</label>
+                        <input type="text" id="requirementMemory"
+                            name="requirementMemory" required>
+                        <label for="requirementProcessor">Processor
+                            Requirement:</label>
+                        <input type="text" id="requirementProcessor"
+                            name="requirementProcessor" required>
+                        <label for="requirementGraphics">Graphics
+                            Requirement:</label>
+                        <input type="text" id="requirementGraphics"
+                            name="requirementGraphics" required>
+                        <label for="requirementStorage">Storage
+                            Requirement:</label>
+                        <input type="text" id="requirementStorage"
+                            name="requirementStorage" required>
+                        <label for="description">Description:</label>
+                        <textarea id="description" name="description"
+                            required></textarea>
+                        <button type="submit">Add Game</button>
+                    </form>
+                </div>
             </div>
-        </div>
-        <!-- Add Game Modal -->
-        <div id="addGameModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>Add New Game</h2>
-                <form th:action="@{/games}" method="post">
-                    <label for="title">Title:</label>
-                    <input type="text" id="title" name="title" required>
-                    <label for="genre">Genre:</label>
-                    <input type="text" id="genre" name="genre" required>
-                    <label for="platform">Platform:</label>
-                    <input type="text" id="platform" name="platform" required>
-                    <label for="pricePerDay">Price per Day:</label>
-                    <input type="number" id="pricePerDay" name="pricePerDay"
-                        required>
-                    <label for="releaseDate">Release Date:</label>
-                    <input type="date" id="releaseDate" name="releaseDate"
-                        required>
-                    <label for="requirementMemory">Memory Requirement:</label>
-                    <input type="text" id="requirementMemory"
-                        name="requirementMemory" required>
-                    <label for="requirementProcessor">Processor
-                        Requirement:</label>
-                    <input type="text" id="requirementProcessor"
-                        name="requirementProcessor" required>
-                    <label for="requirementGraphics">Graphics
-                        Requirement:</label>
-                    <input type="text" id="requirementGraphics"
-                        name="requirementGraphics" required>
-                    <label for="requirementStorage">Storage Requirement:</label>
-                    <input type="text" id="requirementStorage"
-                        name="requirementStorage" required>
-                    <label for="description">Description:</label>
-                    <textarea id="description" name="description"
-                        required></textarea>
-                    <button type="submit">Add Game</button>
-                </form>
+            <!-- Edit Game Modal -->
+            <div id="editGameModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Edit Game</h2>
+                    <form th:action="@{/games}" method="post">
+                        <input type="hidden" id="editGameId" name="id">
+                        <label for="editTitle">Title:</label>
+                        <input type="text" id="editTitle" name="title"
+                            required>
+                        <label for="editGenre">Genre:</label>
+                        <input type="text" id="editGenre" name="genre"
+                            required>
+                        <label for="editPlatform">Platform:</label>
+                        <input type="text" id="editPlatform" name="platform"
+                            required>
+                        <label for="editPricePerDay">Price per Day:</label>
+                        <input type="number" id="editPricePerDay"
+                            name="pricePerDay"
+                            required>
+                        <label for="editReleaseDate">Release Date:</label>
+                        <input type="date" id="editReleaseDate"
+                            name="releaseDate"
+                            required>
+                        <label for="editRequirementMemory">Memory
+                            Requirement:</label>
+                        <input type="text" id="editRequirementMemory"
+                            name="requirementMemory" required>
+                        <label for="editRequirementProcessor">Processor
+                            Requirement:</label>
+                        <input type="text" id="editRequirementProcessor"
+                            name="requirementProcessor" required>
+                        <label for="editRequirementGraphics">Graphics
+                            Requirement:</label>
+                        <input type="text" id="editRequirementGraphics"
+                            name="requirementGraphics" required>
+                        <label for="editRequirementStorage">Storage
+                            Requirement:</label>
+                        <input type="text" id="editRequirementStorage"
+                            name="requirementStorage" required>
+                        <label for="editDescription">Description:</label>
+                        <textarea id="editDescription" name="description"
+                            required></textarea>
+                        <button type="submit">Save Changes</button>
+                    </form>
+                </div>
             </div>
-        </div>
-        <!-- Edit Game Modal -->
-        <div id="editGameModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>Edit Game</h2>
-                <form th:action="@{/games}" method="post">
-                    <input type="hidden" id="editGameId" name="id">
-                    <label for="editTitle">Title:</label>
-                    <input type="text" id="editTitle" name="title" required>
-                    <label for="editGenre">Genre:</label>
-                    <input type="text" id="editGenre" name="genre" required>
-                    <label for="editPlatform">Platform:</label>
-                    <input type="text" id="editPlatform" name="platform"
-                        required>
-                    <label for="editPricePerDay">Price per Day:</label>
-                    <input type="number" id="editPricePerDay" name="pricePerDay"
-                        required>
-                    <label for="editReleaseDate">Release Date:</label>
-                    <input type="date" id="editReleaseDate" name="releaseDate"
-                        required>
-                    <label for="editRequirementMemory">Memory
-                        Requirement:</label>
-                    <input type="text" id="editRequirementMemory"
-                        name="requirementMemory" required>
-                    <label for="editRequirementProcessor">Processor
-                        Requirement:</label>
-                    <input type="text" id="editRequirementProcessor"
-                        name="requirementProcessor" required>
-                    <label for="editRequirementGraphics">Graphics
-                        Requirement:</label>
-                    <input type="text" id="editRequirementGraphics"
-                        name="requirementGraphics" required>
-                    <label for="editRequirementStorage">Storage
-                        Requirement:</label>
-                    <input type="text" id="editRequirementStorage"
-                        name="requirementStorage" required>
-                    <label for="editDescription">Description:</label>
-                    <textarea id="editDescription" name="description"
-                        required></textarea>
-                    <button type="submit">Save Changes</button>
-                </form>
+            <!-- Delete Confirmation Modal -->
+            <div id="deleteGameModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Delete Game</h2>
+                    <p id="deleteMessage"></p>
+                    <button id="confirmDeleteButton">Yes</button>
+                    <button id="cancelDeleteButton">No</button>
+                </div>
             </div>
-        </div>
-        <!-- Delete Confirmation Modal -->
-        <div id="deleteGameModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>Delete Game</h2>
-                <p id="deleteMessage"></p>
-                <button id="confirmDeleteButton">Yes</button>
-                <button id="cancelDeleteButton">No</button>
-            </div>
-        </div>
-        <script th:src="@{/js/modal.js}"></script>
-    </body>
-</html>
+            <script th:src="@{/js/modal.js}"></script>
+        </body>
+    </html>

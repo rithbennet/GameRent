@@ -20,6 +20,8 @@
                 </div>
                 <button type="button" class="editButton"
                     th:attr="data-id=${game.id}">Edit</button>
+                <button type="button" class="deleteButton"
+                    th:attr="data-id=${game.id},data-title=${game.title}">Delete</button>
             </div>
             <div th:if="${#lists.isEmpty(games)}">
                 <p>No games found</p>
@@ -105,6 +107,16 @@
                         required></textarea>
                     <button type="submit">Save Changes</button>
                 </form>
+            </div>
+        </div>
+        <!-- Delete Confirmation Modal -->
+        <div id="deleteGameModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Delete Game</h2>
+                <p id="deleteMessage"></p>
+                <button id="confirmDeleteButton">Yes</button>
+                <button id="cancelDeleteButton">No</button>
             </div>
         </div>
         <script th:src="@{/js/modal.js}"></script>

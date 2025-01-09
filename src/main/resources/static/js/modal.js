@@ -1,10 +1,12 @@
 // Get the modals
 var addGameModal = document.getElementById("addGameModal");
 var editGameModal = document.getElementById("editGameModal");
+var deleteGameModal = document.getElementById("deleteGameModal");
 
 // Get the buttons that open the modals
 var addBtn = document.getElementById("openModalButton");
 var editBtns = document.getElementsByClassName("editButton");
+var deleteBtns = document.getElementsByClassName("deleteButton");
 
 // Get the <span> elements that close the modals
 var spans = document.getElementsByClassName("close");
@@ -19,6 +21,7 @@ for (var i = 0; i < spans.length; i++) {
   spans[i].onclick = function () {
     addGameModal.style.display = "none";
     editGameModal.style.display = "none";
+    deleteGameModal.style.display = "none";
   };
 }
 
@@ -29,6 +32,9 @@ window.onclick = function (event) {
   }
   if (event.target == editGameModal) {
     editGameModal.style.display = "none";
+  }
+  if (event.target == deleteGameModal) {
+    deleteGameModal.style.display = "none";
   }
 };
 
@@ -59,3 +65,26 @@ for (var i = 0; i < editBtns.length; i++) {
       });
   };
 }
+
+// When the user clicks the delete button, open the delete confirmation modal
+for (var i = 0; i < deleteBtns.length; i++) {
+  deleteBtns[i].onclick = function () {
+    var gameId = this.getAttribute("data-id");
+    var gameTitle = this.getAttribute("data-title");
+    document.getElementById("deleteMessage").innerText =
+      "Are you sure you want to delete " + gameTitle + "?";
+    document.getElementById("confirmDeleteButton").onclick = function () {
+      fetch("/games/" + gameId, {
+        method: "DELETE",
+      }).then(() => {
+        window.location.reload();
+      });
+    };
+    deleteGameModal.style.display = "block";
+  };
+}
+
+// When the user clicks the cancel button, close the delete confirmation modal
+document.getElementById("cancelDeleteButton").onclick = function () {
+  deleteGameModal.style.display = "none";
+};

@@ -2,7 +2,6 @@ package com.rental.gamerent.controller;
 
 import com.rental.gamerent.model.Favorite;
 import com.rental.gamerent.model.UserPrincipal;
-import com.rental.gamerent.model.Users;
 import com.rental.gamerent.service.FavoriteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -12,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/favorites")

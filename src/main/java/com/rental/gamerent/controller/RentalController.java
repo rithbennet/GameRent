@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -31,7 +30,6 @@ public class RentalController {
     private final RentalService rentalService;
     private final GameService gameService;
 
-    @Autowired
     public RentalController(RentalService rentalService, GameService gameService) {
         this.rentalService = rentalService;
         this.gameService = gameService;

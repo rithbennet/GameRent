@@ -2,12 +2,16 @@ package com.rental.gamerent.controller;
 
 import com.rental.gamerent.model.Game;
 import com.rental.gamerent.model.Review;
+import com.rental.gamerent.model.UserPrincipal;
 import com.rental.gamerent.service.GameService;
 import com.rental.gamerent.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -47,25 +51,31 @@ public class ReviewsController {
         return "reviews";
     }
 
-    @PostMapping("/reviews/add")
-    public String addReview(@RequestParam("gameId") Long gameId,
-                            @RequestParam("reviews") Long reviews,
-                            @RequestParam("feedback") String feedback) {
-
-        // Fetch the game by ID
-        Game game = gameService.getGameById(gameId);
-        if (game == null) {
-            return "redirect:/reviews?error=GameNotFound";
-        }
-
-        // Create and save a new review
-        Review newReview = new Review();
-        newReview.setGameId(gameId);
-        newReview.setReviews(reviews); // Set the rating
-        newReview.setFeedback(feedback); // Set the feedback
-        reviewService.saveReview(newReview);
-
-        // Redirect back to the reviews page
-        return "redirect:/reviews?title=" + game.getTitle();
+    @PostMapping("reviews/add")
+    public String addReview(@RequestParam Long gameId, @RequestParam Long reviews,
+            @RequestParam String feedback) {
+        Long userId = getCurrentUserId();
+        Review review = new Review();
+        review.setReviews(reviews);
+        review.setFeedback(feedback);
+        reviewService.saveReview(gameId, userId, review);
+        return "redirect:/games/" + gameId;
     }
+
+     @PostMapping("/delete/{id}")
+    public String deleteReview(@PathVariable Long id, @RequestParam("gameId") Long gameId) {
+        reviewService.deleteReviewById(id);
+        return "redirect:/games/" + gameId;
+    }
+
+     private Long getCurrentUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserPrincipal) {
+            UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+            return userPrincipal.getId();
+        }
+        throw new IllegalStateException("User not authenticated");
+    }
+
+    
 }

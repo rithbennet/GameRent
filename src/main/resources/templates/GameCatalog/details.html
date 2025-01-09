@@ -137,6 +137,39 @@
       </ul>
       <h2>Game Description</h2>
       <p class="gameDescription" th:text="${game.description}">Description</p>
+      <!-- Add Review Form -->
+      <div th:if="${!userHasReviewed}">
+        <h3>Add a Review</h3>
+        <form th:action="@{/reviews/add}" method="post">
+          <input type="hidden" name="gameId" th:value="${game.id}" />
+          <label for="reviews">Rating:</label>
+          <input
+            type="number"
+            id="reviews"
+            name="reviews"
+            min="1"
+            max="5"
+            required
+          />
+          <label for="feedback">Feedback:</label>
+          <textarea id="feedback" name="feedback" required></textarea>
+          <button type="submit">Submit Review</button>
+        </form>
+      </div>
+      <h2>Reviews</h2>
+      <div th:each="review : ${reviews}">
+        <p><strong th:text="${review.user.username}">Username</strong></p>
+        <p th:text="${review.feedback}">Feedback</p>
+        <p>Rating: <span th:text="${review.reviews}">Rating</span></p>
+        <div sec:authorize="hasRole('ADMIN')">
+          <form
+            th:action="@{/reviews/delete/{id}(id=${review.id})}"
+            method="post"
+          >
+            <button type="submit">Delete Review</button>
+          </form>
+        </div>
+      </div>
     </div>
   </body>
 </html>

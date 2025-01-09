@@ -6,7 +6,6 @@ import com.rental.gamerent.model.RentalStatus;
 import com.rental.gamerent.repo.RentalRepo;
 import com.rental.gamerent.repo.GameRepo;
 import com.rental.gamerent.repo.UserRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +22,6 @@ public class RentalService {
     private final GameRepo gameRepository;
     private final UserRepo userRepository;
 
-    @Autowired
     public RentalService(RentalRepo rentalRepository, GameRepo gameRepository, UserRepo userRepository) {
         this.rentalRepository = rentalRepository;
         this.gameRepository = gameRepository;

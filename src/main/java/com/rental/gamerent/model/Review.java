@@ -1,9 +1,6 @@
 package com.rental.gamerent.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Review {
@@ -11,11 +8,24 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Assuming the `id` column is auto-incremented
     private Long id;
-
     private Long reviews; // Assuming the reviews are some kind of rating or identifier
     private String feedback; // Changed to lowercase for consistency
-    private Long game_id; // Updated to follow Java naming conventions
+    @ManyToOne
+    @JoinColumn(name = "game_id", nullable = false) // Foreign key to Game table
+    private Game game;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false) // Foreign key to Users table
+    private Users user;
+
+    public Review() {
+    }
+
+    // Constructor
+    public Review(Game game, Users user) {
+        this.game = game;
+        this.user = user;
+    }
     // Getters and Setters
     public Long getId() {
         return id;
@@ -41,11 +51,19 @@ public class Review {
         this.feedback = feedback;
     }
 
-    public Long getGameId() {
-        return game_id;
+    public Game getGame() {
+        return game;
     }
 
-    public void setGameId(Long gameId) {
-        this.game_id = gameId;
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public Users getUser() {
+        return user;
+    }
+
+    public void setUser(Users user) {
+        this.user = user;
     }
 }

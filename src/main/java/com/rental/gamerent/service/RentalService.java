@@ -48,7 +48,7 @@ public class RentalService {
                 .orElseThrow(() -> new IllegalArgumentException("Game not found: " + gameId));
 
         // Validate user exists
-        if (!userRepository.existsById(userId.intValue())) {
+        if (!userRepository.existsById((long) userId.intValue())) {
             throw new IllegalArgumentException("User not found: " + userId);
         }
 

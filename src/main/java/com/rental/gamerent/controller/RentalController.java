@@ -1,19 +1,25 @@
 package com.rental.gamerent.controller;
 
-import com.rental.gamerent.model.Game;
-import com.rental.gamerent.model.Rental;
-import com.rental.gamerent.service.RentalService;
-import com.rental.gamerent.service.GameService;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
+import com.rental.gamerent.model.Game;
+import com.rental.gamerent.model.Rental;
+import com.rental.gamerent.service.GameService;
+import com.rental.gamerent.service.RentalService;
 
 @Controller
 @RequestMapping("/rentals")
@@ -48,6 +54,17 @@ public class RentalController {
         } catch (Exception e) {
             model.addAttribute("error", "An unexpected error occurred");
             return "rental-form"; // Return to form with error
+        }
+    }
+
+    @PostMapping("/{rentalId}/remove")
+    public String removeCartItem(@PathVariable Long rentalId, Model model) {
+        try {
+            rentalService.deleteRental(rentalId);
+            return "redirect:/rentals/cart"; // Redirect to the cart page after removal
+        } catch (Exception e) {
+            model.addAttribute("error", "Failed to remove item: " + e.getMessage());
+            return "cart"; // Return the cart view with an error message
         }
     }
 
@@ -123,7 +140,6 @@ public class RentalController {
         model.addAttribute("message", "You have checked out successfully!");
         return "checkout-success"; // This will map to a Thymeleaf template
     }
-    
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleException(Exception e) {

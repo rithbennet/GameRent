@@ -20,10 +20,10 @@
                 <span th:text="${rental.rentalEndDate}"></span>
             </p>
             <p>Price: RM<span th:text="${rental.totalPrice}"></span></p>
-        </div>
-        
-        <div class="cart-total">
-            <h3>Total: $<span th:text="${totalPrice}"></span></h3>
+            <!-- Remove button -->
+            <form th:action="@{/rentals/{rentalId}/remove(rentalId=${rental.rentalId})}" method="post">
+                <button type="submit">Remove</button>
+            </form>
         </div>
     </div>
     

@@ -61,6 +61,12 @@ public class RentalService {
         return rentalRepository.save(rental);
     }
 
+    public void deleteRental(Long rentalId) {
+        Rental rental = rentalRepository.findById(rentalId)
+            .orElseThrow(() -> new IllegalArgumentException("Rental not found"));
+        rentalRepository.delete(rental);
+    }
+
     public List<Rental> getActiveRentals(Long userId) {
         return rentalRepository.findByUserIdAndRentalStatus(userId, RentalStatus.ACTIVE);
     }

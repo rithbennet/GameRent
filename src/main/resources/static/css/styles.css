@@ -40,13 +40,13 @@ body {
 }
 
 .allGames .dataDiv p {
-  margin: 0px;
+  margin: 0px 0px 5px 0px;
   padding: 0px;
 }
 
 .allGames .singleGame {
   background-color: var(--secondary-color);
-  width: 300px;
+  width: 320px;
   padding: 40px;
   border-radius: 30px;
   display: flex;
@@ -96,6 +96,7 @@ body {
   flex-direction: column;
   gap: 10px;
   margin: 20px 0px;
+  justify-content: center;
 }
 
 .singleGame > div {
@@ -119,7 +120,8 @@ body {
   gap: 10px;
 }
 
-.buttonDiv button {
+.buttonDiv button,
+.newGame {
   padding: 8px 20px;
   border-radius: 14px;
   background-color: transparent;
@@ -133,12 +135,56 @@ body {
   cursor: pointer;
 }
 
-.buttonDiv button:last-child {
+.buttonDiv button:last-child,
+.newGame {
   background-color: var(--highlight-color);
   border: none;
 }
 
-.buttonDiv button:hover {
+.buttonDiv button:hover,
+.newGame:hover {
   background-color: var(--not-white);
   color: var(--background-color);
+}
+
+nav a {
+  color: var(--not-white);
+  text-decoration: none;
+  padding: 10px;
+}
+
+nav ul {
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+nav {
+  background-color: var(--secondary-color);
+  padding: 15px 10px 10px 10px;
+  border-radius: 60px;
+}
+
+nav li {
+  padding: 0px 10px;
+}
+
+nav li:hover svg {
+  transform: scale(1.2);
+}
+
+nav li svg {
+  transition: transform 0.3s;
+}
+
+.detailsDiv .dataDiv {
+  justify-content: center !important;
+}
+
+.newGame {
+  width: 86% !important;
+  margin: 20px 0px;
+  padding: 15px;
 }

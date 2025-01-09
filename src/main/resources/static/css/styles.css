@@ -4,6 +4,7 @@
   --highlight-color: #cd0020;
   --not-white: #e9eff1;
   --secondary-color: #14151f;
+  --blur-text: #7a879e;
 }
 
 body {
@@ -56,6 +57,9 @@ body {
 }
 
 .modal {
+  align-items: center;
+  vertical-align: center;
+  justify-content: center;
   display: none;
   position: fixed;
   z-index: 1;
@@ -66,15 +70,13 @@ body {
   overflow: auto;
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
-  padding-top: 60px;
 }
 
 .modal-content {
   background-color: #fefefe;
-  margin: 5% auto;
   padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
+  border-radius: 4%;
+  width: 1000px;
 }
 
 .close {
@@ -121,6 +123,7 @@ body {
 }
 
 .buttonDiv button,
+.buttonDiv a,
 .newGame {
   padding: 8px 20px;
   border-radius: 14px;
@@ -130,9 +133,10 @@ body {
   box-shadow: none;
   border: 1px solid var(--not-white);
   color: var(--not-white);
-  width: 100px;
   transition: background-color 0.3s, color 0.3s;
   cursor: pointer;
+  text-decoration: none;
+  font-size: 14px;
 }
 
 .buttonDiv button:last-child,
@@ -142,6 +146,7 @@ body {
 }
 
 .buttonDiv button:hover,
+.buttonDiv a:hover,
 .newGame:hover {
   background-color: var(--not-white);
   color: var(--background-color);
@@ -165,6 +170,7 @@ nav {
   background-color: var(--secondary-color);
   padding: 15px 10px 10px 10px;
   border-radius: 60px;
+  margin-top: 20px;
 }
 
 nav li {
@@ -187,4 +193,97 @@ nav li svg {
   width: 86% !important;
   margin: 20px 0px;
   padding: 15px;
+}
+
+.gameData {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+  vertical-align: middle;
+  align-items: center;
+}
+
+.allGameData {
+  width: 80%;
+  margin-top: 20px;
+}
+
+.allGameData .gameData > p svg {
+  margin-bottom: -4px;
+}
+
+.allGameData .gameData > p:first-child svg {
+  margin-bottom: -2px;
+}
+
+.allGameData .gameData > p:last-child svg {
+  margin-bottom: -2px;
+}
+
+.gameData p {
+  background-color: var(--secondary-color);
+  padding: 10px 20px;
+  border-radius: 14px;
+}
+
+.allGameData li {
+  list-style-position: outside;
+  margin-left: -25px;
+}
+
+.allGameData ul {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.allGameData h2 {
+  border: solid;
+  border-width: 0px 0px 2px 0px;
+  border-color: var(--blur-text);
+  padding-bottom: 20px;
+  margin: 40px 0px 20px 0px;
+}
+
+.gameDescription {
+  text-align: justify;
+  line-height: 25px;
+}
+
+.modal-content {
+  background-color: var(--background-color);
+}
+
+.modalForm,
+.modalForm form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+}
+
+.modalForm input,
+.modalForm textarea,
+.modalForm select {
+  display: flex;
+  height: 40px;
+  width: 100%;
+  border-radius: 14px;
+  background-color: var(--blur-text);
+  border: none;
+  color: var(--not-white);
+  padding: 0px 10px;
+}
+
+.inputDiv {
+  width: 45%;
+}
+
+.inputDiv input,
+.inputDiv textarea {
+  margin-top: 10px;
 }

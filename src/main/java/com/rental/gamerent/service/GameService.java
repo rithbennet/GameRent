@@ -36,4 +36,9 @@ public class GameService {
     public void deleteGame(Long id) {
         gameRepo.deleteById(id);
     }
+
+    // Method to search games by title
+    public List<Game> searchGamesByTitle(String title) {
+        return gameRepo.findByTitleContainingIgnoreCase(title);
+    }
 }

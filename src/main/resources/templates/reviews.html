@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Game Reviews</title>
+</head>
+<body>
+<h1 th:text="${title}">Game Reviews</h1>
+<p th:text="${message}"></p>
+
+<!-- Search Form -->
+<form action="/reviews" method="get">
+    <input type="text" name="title" placeholder="Enter game title" th:value="${param.title}" />
+    <button type="submit">Search</button>
+</form>
+
+<p>Search results:</p>
+
+<!-- Iterate over games and their reviews -->
+<ul>
+    <li th:each="entry : ${gameReviews}">
+        <!-- Display Game Details -->
+        <h2 th:text="${entry.key.title}">Game Title</h2>
+        <p>Genre: <span th:text="${entry.key.genre}"></span></p>
+        <p>Platform: <span th:text="${entry.key.platform}"></span></p>
+        <p>Price Per Day: <span th:text="${entry.key.pricePerDay}"></span></p>
+
+        <!-- Display Reviews for the Game -->
+        <h3>Reviews:</h3>
+        <ul>
+            <li th:each="review : ${entry.value}">
+                <p>
+                    <b>Rating:</b> <span th:text="${review.reviews}"></span><br>
+                    <b>Feedback:</b> <span th:text="${review.feedback}"></span>
+                </p>
+            </li>
+        </ul>
+
+        <!-- Conditional message for no reviews -->
+        <p th:if="${#lists.isEmpty(entry.value)}">No reviews yet. Be the first to add one!</p>
+
+        <!-- Updated Add Review Form -->
+        <h3>Add a Review:</h3>
+        <form action="/reviews/add" method="post">
+            <input type="hidden" name="gameId" th:value="${entry.key.id}" />
+            <label>Rating:</label>
+            <input type="number" name="reviews" min="1" max="5" required />
+            <br>
+            <label>Feedback:</label>
+            <textarea name="feedback" placeholder="Enter your feedback" required></textarea>
+            <br>
+            <button type="submit">Submit Review</button>
+        </form>
+    </li>
+</ul>
+
+<!-- Display no results message if no games match -->
+<p th:if="${#lists.isEmpty(gameReviews)}">No games found for your search.</p>
+
+</body>
+</html>

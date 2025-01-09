@@ -13,7 +13,7 @@ var spans = document.getElementsByClassName("close");
 
 // When the user clicks the button, open the add game modal
 addBtn.onclick = function () {
-  addGameModal.style.display = "block";
+  addGameModal.style.display = "flex";
 };
 
 // When the user clicks on <span> (x), close the modals
@@ -61,7 +61,7 @@ for (var i = 0; i < editBtns.length; i++) {
         document.getElementById("editRequirementStorage").value =
           game.requirementStorage;
         document.getElementById("editDescription").value = game.description;
-        editGameModal.style.display = "block";
+        editGameModal.style.display = "flex";
       });
   };
 }
@@ -80,7 +80,7 @@ for (var i = 0; i < deleteBtns.length; i++) {
         window.location.reload();
       });
     };
-    deleteGameModal.style.display = "block";
+    deleteGameModal.style.display = "flex";
   };
 }
 

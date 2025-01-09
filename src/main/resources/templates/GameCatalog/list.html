@@ -84,43 +84,59 @@
             <div id="addGameModal" class="modal">
                 <div class="modal-content">
                     <span class="close">&times;</span>
-                    <h2>Add New Game</h2>
-                    <form th:action="@{/games}" method="post">
-                        <label for="title">Title:</label>
-                        <input type="text" id="title" name="title" required>
-                        <label for="genre">Genre:</label>
-                        <input type="text" id="genre" name="genre" required>
-                        <label for="platform">Platform:</label>
-                        <input type="text" id="platform" name="platform"
-                            required>
-                        <label for="pricePerDay">Price per Day:</label>
-                        <input type="number" id="pricePerDay"
-                            name="pricePerDay"
-                            required>
-                        <label for="releaseDate">Release Date:</label>
-                        <input type="date" id="releaseDate"
-                            name="releaseDate"
-                            required>
-                        <label for="requirementMemory">Memory
-                            Requirement:</label>
-                        <input type="text" id="requirementMemory"
-                            name="requirementMemory" required>
-                        <label for="requirementProcessor">Processor
-                            Requirement:</label>
-                        <input type="text" id="requirementProcessor"
-                            name="requirementProcessor" required>
-                        <label for="requirementGraphics">Graphics
-                            Requirement:</label>
-                        <input type="text" id="requirementGraphics"
-                            name="requirementGraphics" required>
-                        <label for="requirementStorage">Storage
-                            Requirement:</label>
-                        <input type="text" id="requirementStorage"
-                            name="requirementStorage" required>
-                        <label for="description">Description:</label>
-                        <textarea id="description" name="description"
-                            required></textarea>
-                        <button type="submit">Add Game</button>
+                    <div class="modalForm">
+                        <h2>Add New Game</h2>
+                        <form th:action="@{/games}" method="post">
+                            <div class="inputDiv">
+                                <label for="title">Title:</label>
+                                <input type="text" id="title" name="title"
+                                    required>
+                            </div>
+                            <div class="inputDiv">
+                                <label for="genre">Genre</label>
+                                <input type="text" id="genre" name="genre"
+                                    required>
+                            </div>
+                            <div class="inputDiv">
+                                <label for="platform">Platform</label>
+                                <input type="text" id="platform" name="platform"
+                                    required></div>
+                            <div class="inputDiv">
+                                <label for="pricePerDay">Price per Day</label>
+                                <input type="number" id="pricePerDay"
+                                    name="pricePerDay"
+                                    required></div><div class="inputDiv">
+                                <label for="releaseDate">Release Date</label>
+                                <input type="date" id="releaseDate"
+                                    name="releaseDate"
+                                    required></div><div class="inputDiv">
+                                <label for="requirementMemory">Memory
+                                    Requirement</label>
+                                <input type="text" id="requirementMemory"
+                                    name="requirementMemory" required></div><div
+                                class="inputDiv">
+                                <label for="requirementProcessor">Processor
+                                    Requirement</label>
+                                <input type="text" id="requirementProcessor"
+                                    name="requirementProcessor"
+                                    required></div><div class="inputDiv">
+                                <label for="requirementGraphics">Graphics
+                                    Requirement</label>
+                                <input type="text" id="requirementGraphics"
+                                    name="requirementGraphics" required></div>
+                            <div class="inputDiv"><label
+                                    for="requirementStorage">Storage
+                                    Requirement</label>
+                                <input type="text" id="requirementStorage"
+                                    name="requirementStorage" required></div>
+                            <div class="inputDiv">
+                                <label for="description">Description</label>
+                                <textarea id="description" name="description"
+                                    required></textarea></div>
+                            <div class="buttonDiv">
+                                <button type="submit">Add Game</button>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>

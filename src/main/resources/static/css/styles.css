@@ -57,6 +57,9 @@ body {
 }
 
 .modal {
+  align-items: center;
+  vertical-align: center;
+  justify-content: center;
   display: none;
   position: fixed;
   z-index: 1;
@@ -67,15 +70,13 @@ body {
   overflow: auto;
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
-  padding-top: 60px;
 }
 
 .modal-content {
   background-color: #fefefe;
-  margin: 5% auto;
   padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
+  border-radius: 4%;
+  width: 1000px;
 }
 
 .close {
@@ -249,4 +250,40 @@ nav li svg {
 .gameDescription {
   text-align: justify;
   line-height: 25px;
+}
+
+.modal-content {
+  background-color: var(--background-color);
+}
+
+.modalForm,
+.modalForm form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+}
+
+.modalForm input,
+.modalForm textarea,
+.modalForm select {
+  display: flex;
+  height: 40px;
+  width: 100%;
+  border-radius: 14px;
+  background-color: var(--blur-text);
+  border: none;
+  color: var(--not-white);
+  padding: 0px 10px;
+}
+
+.inputDiv {
+  width: 45%;
+}
+
+.inputDiv input,
+.inputDiv textarea {
+  margin-top: 10px;
 }

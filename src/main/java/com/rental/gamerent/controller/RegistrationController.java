@@ -1,9 +1,11 @@
 package com.rental.gamerent.controller;
 
 import com.rental.gamerent.dto.RegistrationDTO;
+import jakarta.servlet.http.HttpServletRequest;
 import com.rental.gamerent.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,7 +29,7 @@ public class RegistrationController {
 
 
     @PostMapping("/register")
-    public String register(RegistrationDTO registrationDTO, Model model) {
+    public String register(RegistrationDTO registrationDTO, Model model, HttpServletRequest httpServletRequest) {
         if (!registrationDTO.getPassword().equals(registrationDTO.getConfirmPassword())) {
             model.addAttribute("error", "Passwords do not match");
             return "login"; // Show registration page with error
@@ -40,6 +42,7 @@ public class RegistrationController {
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(registrationDTO.getUsername(), registrationDTO.getPassword());
             Authentication authentication = authenticationManager.authenticate(authToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            httpServletRequest.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
             logger.info("User {} successfully authenticated", registrationDTO.getUsername());
         } catch (Exception e) {
             logger.error("Authentication failed for user {}", registrationDTO.getUsername(), e);
@@ -48,7 +51,7 @@ public class RegistrationController {
         }
 
         model.addAttribute("success", "Registration successful");
-        return "redirect:/home"; 
+        return "redirect:/games";
      }
 
 

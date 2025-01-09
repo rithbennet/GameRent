@@ -1,9 +1,12 @@
 package com.rental.gamerent.controller;
 
 import com.rental.gamerent.model.Favorite;
+import com.rental.gamerent.model.UserPrincipal;
+import com.rental.gamerent.model.Users;
 import com.rental.gamerent.service.FavoriteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,45 +21,45 @@ public class FavoriteController {
     @Autowired
     private FavoriteService favoriteService;
 
-    // Render the favorites page
-    @GetMapping("/page")
-    public String getFavoritesPage(Model model) {
-        List<Favorite> favorites = favoriteService.getAllFavorites();
+    // Render the favorites page for the current user
+    @GetMapping
+    public String favorites(Model model) {
+        Long userId = getCurrentUserId();
+        List<Favorite> favorites = favoriteService.getFavoritesByUserId(userId);
         model.addAttribute("favorites", favorites);
         model.addAttribute("newFavorite", new Favorite()); // Add empty Favorite object for the form
         return "favorites";
     }
 
-    // Retrieve all favorites as JSON
-    @GetMapping
-    @ResponseBody
-    public List<Favorite> getAllFavorites() {
-        return favoriteService.getAllFavorites();
-    }
-
-    // Retrieve a specific favorite by ID as JSON
-    @GetMapping("/{id}")
-    @ResponseBody
-    public ResponseEntity<Favorite> getFavoriteById(@PathVariable Long id) {
-        Optional<Favorite> favorite = favoriteService.getFavoriteById(id);
-        return favorite.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    // Retrieve all favorites for a specific user
+    @GetMapping("/user/{userId}")
+    public String getUserFavorites(@PathVariable Long userId, Model model) {
+        List<Favorite> favorites = favoriteService.getFavoritesByUserId(userId);
+        model.addAttribute("favorites", favorites);
+        return "favorites";
     }
 
     // Handle form submission to add a new favorite
     @PostMapping("/add")
-    public String addFavorite(@ModelAttribute Favorite favorite) {
-        favoriteService.saveFavorite(favorite); // Save the new favorite
-        return "redirect:/favorites/page"; // Redirect to favorites page
+    public String addFavorite(@RequestParam Long gameId, @RequestParam Long userId) {
+        favoriteService.addFavorite(gameId, userId); // Save the new favorite
+        return "redirect:/favorites"; // Redirect to user's favorites page
     }
 
     // Delete a favorite by ID
-    @DeleteMapping("/{id}")
-    @ResponseBody
-    public ResponseEntity<Void> deleteFavorite(@PathVariable Long id) {
-        if (favoriteService.getFavoriteById(id).isPresent()) {
-            favoriteService.deleteFavoriteById(id);
-            return ResponseEntity.noContent().build();
+    @PostMapping("/delete/{id}")
+    public String deleteFavorite(@PathVariable Long id, @RequestParam Long userId) {
+        favoriteService.deleteFavoriteById(id);
+        return "redirect:/favorites"; // Redirect to user's favorites page
+    }
+
+    // Helper method to get the current user's ID from the session
+    private Long getCurrentUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserPrincipal) {
+            UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+            return userPrincipal.getId();
         }
-        return ResponseEntity.notFound().build();
+        throw new IllegalStateException("User not authenticated");
     }
 }

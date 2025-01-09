@@ -33,7 +33,7 @@ public class SecurityConfig {
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/home", true)
+                        .defaultSuccessUrl("/games", true)
                         .permitAll()
                 )
                 .logout(LogoutConfigurer::permitAll)

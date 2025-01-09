@@ -35,7 +35,11 @@
     <!-- Navigation links -->
     <div class="navigation">
         <a href="/games">Continue Shopping</a>
-        <a th:if="${cartItems != null and !cartItems.empty}" href="/rentals/checkout" class="button">Proceed to Checkout</a>
+         <!-- Proceed to Checkout button -->
+           <form th:action="@{/rentals/checkout}" method="post">
+               <button type="submit" class="button">Proceed to Checkout</button>
+           </form>
+
     </div>
 </body>
 </html>

@@ -9,9 +9,11 @@
         <p>Visit the <strong>“Rentals”</strong> page to view the details of your game rental.</p>
 
         <div class="buttons">
-            <a href="/rentals/history" class="button">View Rentals</a>
-            <a href="/games" class="button">Browse More Games</a>
+            <!-- Use Thymeleaf's @{} syntax for URL construction -->
+            <a th:href="@{/rentals/history}" class="button">View Rentals</a>
+            <a th:href="@{/games}" class="button">Browse More Games</a>
         </div>
+        
     </div>
 </body>
 </html>

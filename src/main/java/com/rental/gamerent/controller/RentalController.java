@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.rental.gamerent.model.Game;
 import com.rental.gamerent.model.Rental;
+import com.rental.gamerent.model.RentalStatus;
 import com.rental.gamerent.service.GameService;
 import com.rental.gamerent.service.RentalService;
 
@@ -42,7 +43,7 @@ public class RentalController {
             Model model) {
 
         try {
-            Rental rental = rentalService.createRental(gameId, userId, startDate, endDate);
+            Rental rental = rentalService.createRental(gameId, userId, startDate, endDate, RentalStatus.CART);
             model.addAttribute("rental", rental);
             return "rental-success"; // Return the success view
         } catch (IllegalArgumentException e) {
@@ -69,8 +70,21 @@ public class RentalController {
     }
 
     @GetMapping("/active")
-    public ResponseEntity<List<Rental>> getActiveRentals(@RequestParam("userId") Long userId) {
-        return ResponseEntity.ok(rentalService.getActiveRentals(userId));
+    public String getActiveRentals(Model model) {
+        try {
+            Long testUserId = 2L; // Your test user ID
+            List<Rental> activeRentals = rentalService.getActiveRentals(testUserId);
+            List<Rental> previousRentals = rentalService.getPreviousRentals(testUserId);
+
+            model.addAttribute("activeRentals", activeRentals);
+            model.addAttribute("previousRentals", previousRentals);
+
+            return "rental-history";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("error", "Failed to load rentals: " + e.getMessage());
+            return "rental-history";
+        }
     }
 
     @GetMapping("/history") // hardcoded for now to test
@@ -110,15 +124,13 @@ public class RentalController {
 
     @GetMapping("/cart")
     public String showCart(Model model) {
-        Long testUserId = 2L;
+        Long testUserId = 2L; // Replace with actual user authentication
 
         try {
-            List<Rental> cartItems = rentalService.getActiveRentals(testUserId);
-
-            // Fetch game details for each rental
+            List<Rental> cartItems = rentalService.getCartRentals(testUserId); // Fetch rentals with CART status
             cartItems.forEach(rental -> {
                 Game game = gameService.getGameById(rental.getGameId());
-                rental.setGame(game); // Assuming you have a setGame method in Rental
+                rental.setGame(game);
             });
 
             model.addAttribute("cartItems", cartItems);
@@ -135,10 +147,18 @@ public class RentalController {
         }
     }
 
-    @GetMapping("/checkout")
-    public String showCheckoutPage(Model model) {
-        model.addAttribute("message", "You have checked out successfully!");
-        return "checkout-success"; // This will map to a Thymeleaf template
+    @PostMapping("/checkout")
+    public String checkoutRentals(Model model) {
+        Long testUserId = 2L;
+        try {
+            rentalService.checkoutRentals(testUserId);
+            model.addAttribute("message", "You have checked out successfully!");
+            return "checkout-success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("error", "Failed to process checkout: " + e.getMessage());
+            return "cart";
+        }
     }
 
     @ExceptionHandler(Exception.class)

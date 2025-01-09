@@ -30,24 +30,24 @@ public class RentalService {
         this.userRepository = userRepository;
     }
 
-    @Scheduled(cron = "0 0 0 * * ?") // Runs every day at midnight
+    @Scheduled(cron = "0 0 0 * * ?") // Runs daily at midnight
     public void updateExpiredRentals() {
         List<Rental> expiredRentals = rentalRepository.findByRentalStatusAndRentalEndDateBefore(
-            RentalStatus.ACTIVE, LocalDate.now());
+                RentalStatus.ACTIVE, LocalDate.now());
 
-        expiredRentals.forEach(rental -> {
+        for (Rental rental : expiredRentals) {
             rental.setRentalStatus(RentalStatus.RETURNED);
-        });
+        }
 
         rentalRepository.saveAll(expiredRentals);
     }
 
-    public Rental createRental(Long gameId, Long userId, LocalDate startDate, LocalDate endDate) {
+    public Rental createRental(Long gameId, Long userId, LocalDate startDate, LocalDate endDate, RentalStatus status) {
         // Validate game exists and get game details
         Game game = gameRepository.findById(gameId)
                 .orElseThrow(() -> new IllegalArgumentException("Game not found: " + gameId));
 
-        // Validate user exists - Convert Long to Integer for existsById
+        // Validate user exists
         if (!userRepository.existsById(userId.intValue())) {
             throw new IllegalArgumentException("User not found: " + userId);
         }
@@ -58,7 +58,6 @@ public class RentalService {
             throw new IllegalArgumentException("Rental period must be at least 1 day");
         }
 
-        // Convert Double to BigDecimal for precise calculations
         BigDecimal pricePerDay = BigDecimal.valueOf(game.getPricePerDay());
         BigDecimal totalPrice = pricePerDay.multiply(BigDecimal.valueOf(days));
 
@@ -68,7 +67,7 @@ public class RentalService {
         rental.setUserId(userId);
         rental.setRentalStartDate(startDate);
         rental.setRentalEndDate(endDate);
-        rental.setRentalStatus(RentalStatus.ACTIVE);
+        rental.setRentalStatus(status); // Set the passed status
         rental.setTotalPrice(totalPrice);
 
         return rentalRepository.save(rental);
@@ -76,24 +75,50 @@ public class RentalService {
 
     public void deleteRental(Long rentalId) {
         Rental rental = rentalRepository.findById(rentalId)
-            .orElseThrow(() -> new IllegalArgumentException("Rental not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Rental not found"));
         rentalRepository.delete(rental);
     }
 
     public List<Rental> getActiveRentals(Long userId) {
-        return rentalRepository.findByUserIdAndRentalStatus(userId, RentalStatus.ACTIVE);
+        LocalDate today = LocalDate.now();
+        return rentalRepository.findByUserIdAndRentalStatusAndDateRange(userId, RentalStatus.ACTIVE, today);
+    }
+
+    public List<Rental> getCartRentals(Long userId) {
+        return rentalRepository.findByUserIdAndRentalStatus(userId, RentalStatus.CART);
     }
 
     public List<Rental> getPreviousRentals(Long userId) {
         // Update expired rentals
-    List<Rental> expiredRentals = rentalRepository.findByUserIdAndRentalStatusAndRentalEndDateBefore(
-        userId, RentalStatus.ACTIVE, LocalDate.now());
+        List<Rental> expiredRentals = rentalRepository.findByUserIdAndRentalStatusAndRentalEndDateBefore(
+                userId, RentalStatus.ACTIVE, LocalDate.now());
 
-    expiredRentals.forEach(rental -> rental.setRentalStatus(RentalStatus.RETURNED));
-    rentalRepository.saveAll(expiredRentals);
+        expiredRentals.forEach(rental -> rental.setRentalStatus(RentalStatus.RETURNED));
+        rentalRepository.saveAll(expiredRentals);
 
-    // Return all previous rentals
-    return rentalRepository.findByUserIdAndRentalStatus(userId, RentalStatus.RETURNED);
+        // Return all previous rentals
+        return rentalRepository.findByUserIdAndRentalStatus(userId, RentalStatus.RETURNED);
+    }
+
+    @Transactional
+    public void checkoutRentals(Long userId) {
+        // Fetch rentals in the cart
+        List<Rental> cartRentals = rentalRepository.findByUserIdAndRentalStatus(userId, RentalStatus.CART);
+
+        if (cartRentals.isEmpty()) {
+            throw new IllegalStateException("No items in cart to checkout");
+        }
+
+        // Change status to ACTIVE for these rentals
+        for (Rental rental : cartRentals) {
+            rental.setRentalStatus(RentalStatus.ACTIVE);
+        }
+
+        // Save updated rentals
+        rentalRepository.saveAll(cartRentals);
+
+        // Add logging for debugging
+        System.out.println("Updated " + cartRentals.size() + " rentals from CART to ACTIVE for user " + userId);
     }
 
     @Transactional

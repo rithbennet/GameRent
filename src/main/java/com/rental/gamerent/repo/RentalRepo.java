@@ -12,12 +12,21 @@ import java.util.List;
 
 @Repository
 public interface RentalRepo extends JpaRepository<Rental, Long> {
-    @Query("SELECT r FROM Rental r WHERE r.userId = :userId AND r.rentalStatus = :status")
-    List<Rental> findByUserIdAndRentalStatus(
-            @Param("userId") Long userId,
-            @Param("status") RentalStatus status
-    );
-     List<Rental> findByRentalStatusAndRentalEndDateBefore(RentalStatus rentalStatus, LocalDate date);
-     List<Rental> findByUserIdAndRentalStatusAndRentalEndDateBefore(Long userId, RentalStatus rentalStatus, LocalDate date);
 
+    // Active rentals within the date range
+    @Query("SELECT r FROM Rental r WHERE r.userId = :userId AND r.rentalStatus = :status AND r.rentalStartDate <= :today AND r.rentalEndDate >= :today")
+List<Rental> findByUserIdAndRentalStatusAndDateRange(
+    @Param("userId") Long userId,
+    @Param("status") RentalStatus status,
+    @Param("today") LocalDate today
+);
+
+    // Expired rentals
+    List<Rental> findByRentalStatusAndRentalEndDateBefore(RentalStatus status, LocalDate date);
+
+    // Previous rentals (manually updated to RETURNED)
+    List<Rental> findByUserIdAndRentalStatus(Long userId, RentalStatus status);
+
+    // Rentals ending before today
+    List<Rental> findByUserIdAndRentalStatusAndRentalEndDateBefore(Long userId, RentalStatus status, LocalDate date);
 }

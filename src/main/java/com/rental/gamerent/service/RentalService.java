@@ -7,6 +7,7 @@ import com.rental.gamerent.repo.RentalRepo;
 import com.rental.gamerent.repo.GameRepo;
 import com.rental.gamerent.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,18 @@ public class RentalService {
         this.rentalRepository = rentalRepository;
         this.gameRepository = gameRepository;
         this.userRepository = userRepository;
+    }
+
+    @Scheduled(cron = "0 0 0 * * ?") // Runs every day at midnight
+    public void updateExpiredRentals() {
+        List<Rental> expiredRentals = rentalRepository.findByRentalStatusAndRentalEndDateBefore(
+            RentalStatus.ACTIVE, LocalDate.now());
+
+        expiredRentals.forEach(rental -> {
+            rental.setRentalStatus(RentalStatus.RETURNED);
+        });
+
+        rentalRepository.saveAll(expiredRentals);
     }
 
     public Rental createRental(Long gameId, Long userId, LocalDate startDate, LocalDate endDate) {
@@ -72,7 +85,15 @@ public class RentalService {
     }
 
     public List<Rental> getPreviousRentals(Long userId) {
-        return rentalRepository.findByUserIdAndRentalStatus(userId, RentalStatus.RETURNED);
+        // Update expired rentals
+    List<Rental> expiredRentals = rentalRepository.findByUserIdAndRentalStatusAndRentalEndDateBefore(
+        userId, RentalStatus.ACTIVE, LocalDate.now());
+
+    expiredRentals.forEach(rental -> rental.setRentalStatus(RentalStatus.RETURNED));
+    rentalRepository.saveAll(expiredRentals);
+
+    // Return all previous rentals
+    return rentalRepository.findByUserIdAndRentalStatus(userId, RentalStatus.RETURNED);
     }
 
     @Transactional

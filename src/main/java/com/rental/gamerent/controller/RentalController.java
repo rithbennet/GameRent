@@ -72,9 +72,20 @@ public class RentalController {
     @GetMapping("/active")
     public String getActiveRentals(Model model) {
         try {
-            Long testUserId = 2L; // Your test user ID
+            Long testUserId = 2L;
             List<Rental> activeRentals = rentalService.getActiveRentals(testUserId);
             List<Rental> previousRentals = rentalService.getPreviousRentals(testUserId);
+
+            // Load game data for each rental
+            activeRentals.forEach(rental -> {
+                Game game = gameService.getGameById(rental.getGameId());
+                rental.setGame(game);
+            });
+
+            previousRentals.forEach(rental -> {
+                Game game = gameService.getGameById(rental.getGameId());
+                rental.setGame(game);
+            });
 
             model.addAttribute("activeRentals", activeRentals);
             model.addAttribute("previousRentals", previousRentals);
@@ -87,9 +98,8 @@ public class RentalController {
         }
     }
 
-    @GetMapping("/history") // hardcoded for now to test
+    @GetMapping("/history")
     public String getRentalHistory(Model model) {
-        // Hardcode userId=2 for testing since that's what's in your database
         Long testUserId = 2L;
 
         try {
@@ -97,9 +107,21 @@ public class RentalController {
             List<Rental> previousRentals = rentalService.getPreviousRentals(testUserId);
 
             // Add debug logging
-            System.out.println("Active rentals found: " + (activeRentals != null ? activeRentals.size() : "null"));
-            System.out
-                    .println("Previous rentals found: " + (previousRentals != null ? previousRentals.size() : "null"));
+            System.out.println("Loading game data for active rentals...");
+            activeRentals.forEach(rental -> {
+                Game game = gameService.getGameById(rental.getGameId());
+                System.out.println("Found game for rental " + rental.getRentalId() + ": " +
+                        (game != null ? game.getTitle() : "null"));
+                rental.setGame(game);
+            });
+
+            System.out.println("Loading game data for previous rentals...");
+            previousRentals.forEach(rental -> {
+                Game game = gameService.getGameById(rental.getGameId());
+                System.out.println("Found game for rental " + rental.getRentalId() + ": " +
+                        (game != null ? game.getTitle() : "null"));
+                rental.setGame(game);
+            });
 
             model.addAttribute("activeRentals", activeRentals);
             model.addAttribute("previousRentals", previousRentals);

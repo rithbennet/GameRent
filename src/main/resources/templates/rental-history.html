@@ -32,7 +32,7 @@
         <th>End Date</th>
         <th>Total Price</th>
         <th>User ID</th>
-        <th>Game ID</th>
+        <th>Game Title</th>
         <th>Status</th>
     </tr>
     </thead>
@@ -43,7 +43,7 @@
         <td th:text="${rental.rentalEndDate}"></td>
         <td th:text="${rental.totalPrice}"></td>
         <td th:text="${rental.userId}"></td>
-        <td th:text="${rental.gameId}"></td>
+        <td th:text="${rental.game.title}"></td>
         <td th:text="${rental.rentalStatus}"></td>
     </tr>
     </tbody>
@@ -61,7 +61,7 @@
         <th>End Date</th>
         <th>Total Price</th>
         <th>User ID</th>
-        <th>Game ID</th>
+        <th>Game Title</th>
         <th>Status</th>
     </tr>
     </thead>
@@ -72,7 +72,7 @@
         <td th:text="${rental.rentalEndDate}"></td>
         <td th:text="${rental.totalPrice}"></td>
         <td th:text="${rental.userId}"></td>
-        <td th:text="${rental.gameId}"></td>
+        <td th:text="${rental.game.title}"></td>
         <td th:text="${rental.rentalStatus}"></td>
     </tr>
     </tbody>

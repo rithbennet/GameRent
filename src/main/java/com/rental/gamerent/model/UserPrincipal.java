@@ -22,6 +22,18 @@ public class UserPrincipal implements UserDetails {
         return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
     }
 
+    public Long getId() {
+        return user.getId();
+    }
+
+    public String getRole() {
+        return user.getRole();
+    }
+
+    public String getEmail() {
+        return user.getEmail();
+    }
+
     @Override
     public String getPassword() {
         return user.getPassword();

@@ -7,6 +7,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.rental.gamerent.model.Game;
 import com.rental.gamerent.model.Rental;
 import com.rental.gamerent.model.RentalStatus;
+import com.rental.gamerent.model.UserPrincipal;
 import com.rental.gamerent.service.GameService;
 import com.rental.gamerent.service.RentalService;
 
@@ -37,12 +40,12 @@ public class RentalController {
     @PostMapping("/create")
     public String createRental(
             @RequestParam("gameId") Long gameId,
-            @RequestParam("userId") Long userId,
             @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
             Model model) {
 
         try {
+            Long userId = getCurrentUserId();
             Rental rental = rentalService.createRental(gameId, userId, startDate, endDate, RentalStatus.CART);
             model.addAttribute("rental", rental);
             return "rental-success"; // Return the success view
@@ -72,9 +75,9 @@ public class RentalController {
     @GetMapping("/active")
     public String getActiveRentals(Model model) {
         try {
-            Long testUserId = 2L;
-            List<Rental> activeRentals = rentalService.getActiveRentals(testUserId);
-            List<Rental> previousRentals = rentalService.getPreviousRentals(testUserId);
+            Long userId = getCurrentUserId();
+            List<Rental> activeRentals = rentalService.getActiveRentals(userId);
+            List<Rental> previousRentals = rentalService.getPreviousRentals(userId);
 
             // Load game data for each rental
             activeRentals.forEach(rental -> {
@@ -100,11 +103,10 @@ public class RentalController {
 
     @GetMapping("/history")
     public String getRentalHistory(Model model) {
-        Long testUserId = 2L;
-
         try {
-            List<Rental> activeRentals = rentalService.getActiveRentals(testUserId);
-            List<Rental> previousRentals = rentalService.getPreviousRentals(testUserId);
+            Long userId = getCurrentUserId();
+            List<Rental> activeRentals = rentalService.getActiveRentals(userId);
+            List<Rental> previousRentals = rentalService.getPreviousRentals(userId);
 
             // Add debug logging
             System.out.println("Loading game data for active rentals...");
@@ -146,10 +148,9 @@ public class RentalController {
 
     @GetMapping("/cart")
     public String showCart(Model model) {
-        Long testUserId = 2L; // Replace with actual user authentication
-
         try {
-            List<Rental> cartItems = rentalService.getCartRentals(testUserId); // Fetch rentals with CART status
+            Long userId = getCurrentUserId();
+            List<Rental> cartItems = rentalService.getCartRentals(userId); // Fetch rentals with CART status
             cartItems.forEach(rental -> {
                 Game game = gameService.getGameById(rental.getGameId());
                 rental.setGame(game);
@@ -171,9 +172,9 @@ public class RentalController {
 
     @PostMapping("/checkout")
     public String checkoutRentals(Model model) {
-        Long testUserId = 2L;
         try {
-            rentalService.checkoutRentals(testUserId);
+            Long userId = getCurrentUserId();
+            rentalService.checkoutRentals(userId);
             model.addAttribute("message", "You have checked out successfully!");
             return "checkout-success";
         } catch (Exception e) {
@@ -187,5 +188,14 @@ public class RentalController {
     public ResponseEntity<String> handleException(Exception e) {
         // Log the exception here
         return ResponseEntity.internalServerError().body("An unexpected error occurred");
+    }
+
+    private Long getCurrentUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserPrincipal) {
+            UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+            return userPrincipal.getId();
+        }
+        throw new IllegalStateException("User not authenticated");
     }
 }

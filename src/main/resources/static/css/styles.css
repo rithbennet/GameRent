@@ -74,7 +74,7 @@ body {
 
 .modal-content {
   background-color: #fefefe;
-  padding: 20px;
+  padding: 40px;
   border-radius: 4%;
   width: 1000px;
 }
@@ -170,7 +170,7 @@ nav {
   background-color: var(--secondary-color);
   padding: 15px 10px 10px 10px;
   border-radius: 60px;
-  margin-top: 20px;
+  margin: 20px 0px;
 }
 
 nav li {
@@ -271,7 +271,7 @@ nav li svg {
 .modalForm select {
   display: flex;
   height: 40px;
-  width: 100%;
+  width: 96%;
   border-radius: 14px;
   background-color: var(--blur-text);
   border: none;
@@ -286,4 +286,11 @@ nav li svg {
 .inputDiv input,
 .inputDiv textarea {
   margin-top: 10px;
+}
+
+.adminButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

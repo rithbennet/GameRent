@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="EN">
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="EN">
     <head>
         <meta charset="UTF-8">
         <title>All Games</title>
@@ -12,8 +13,8 @@
     </head>
     <body>
         <div th:insert="fragments/nav :: nav"></div>
-        <div sec:authorize="hasRole('ADMIN')">
-        <button id="openModalButton" class="newGame">Add New Game +</button>
+        <div class="adminButton" sec:authorize="hasRole('ADMIN')">
+            <button id="openModalButton" class="newGame">Add New Game +</button>
         </div>
         <div class="allGames">
             <div class="singleGame" th:each="game : ${games}">
@@ -84,7 +85,6 @@
             <!-- Add Game Modal -->
             <div id="addGameModal" class="modal">
                 <div class="modal-content">
-                    <span class="close">&times;</span>
                     <div class="modalForm">
                         <h2>Add New Game</h2>
                         <form th:action="@{/games}" method="post">

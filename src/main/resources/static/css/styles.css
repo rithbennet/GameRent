@@ -1,5 +1,65 @@
 /* Modal styles */
+:root {
+  --background-color: #202132;
+  --highlight-color: #cd0020;
+  --not-white: #e9eff1;
+  --secondary-color: #14151f;
+  --blur-text: #7a879e;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--background-color);
+  color: var(--not-white);
+  font-family: Inter;
+}
+
+.allGames h2 {
+  font-size: 20px;
+  padding: 0px;
+  margin: 0px;
+}
+
+.allGames {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  height: min-content;
+}
+
+.allGames .dataDiv {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  vertical-align: middle;
+  gap: 10px;
+}
+
+.allGames .dataDiv p {
+  margin: 0px 0px 5px 0px;
+  padding: 0px;
+}
+
+.allGames .singleGame {
+  background-color: var(--secondary-color);
+  width: 320px;
+  padding: 40px;
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 .modal {
+  align-items: center;
+  vertical-align: center;
+  justify-content: center;
   display: none;
   position: fixed;
   z-index: 1;
@@ -10,15 +70,13 @@
   overflow: auto;
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
-  padding-top: 60px;
 }
 
 .modal-content {
   background-color: #fefefe;
-  margin: 5% auto;
   padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
+  border-radius: 4%;
+  width: 1000px;
 }
 
 .close {
@@ -33,4 +91,199 @@
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+.detailsDiv {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0px;
+  justify-content: center;
+}
+
+.singleGame > div {
+  cursor: pointer;
+}
+
+.detailsDivRow {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.allGames .singleGame h2 {
+  text-align: center;
+}
+
+.buttonDiv {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.buttonDiv button,
+.buttonDiv a,
+.newGame {
+  padding: 8px 20px;
+  border-radius: 14px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  border: 1px solid var(--not-white);
+  color: var(--not-white);
+  transition: background-color 0.3s, color 0.3s;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.buttonDiv button:last-child,
+.newGame {
+  background-color: var(--highlight-color);
+  border: none;
+}
+
+.buttonDiv button:hover,
+.buttonDiv a:hover,
+.newGame:hover {
+  background-color: var(--not-white);
+  color: var(--background-color);
+}
+
+nav a {
+  color: var(--not-white);
+  text-decoration: none;
+  padding: 10px;
+}
+
+nav ul {
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+nav {
+  background-color: var(--secondary-color);
+  padding: 15px 10px 10px 10px;
+  border-radius: 60px;
+  margin-top: 20px;
+}
+
+nav li {
+  padding: 0px 10px;
+}
+
+nav li:hover svg {
+  transform: scale(1.2);
+}
+
+nav li svg {
+  transition: transform 0.3s;
+}
+
+.detailsDiv .dataDiv {
+  justify-content: center !important;
+}
+
+.newGame {
+  width: 86% !important;
+  margin: 20px 0px;
+  padding: 15px;
+}
+
+.gameData {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+  vertical-align: middle;
+  align-items: center;
+}
+
+.allGameData {
+  width: 80%;
+  margin-top: 20px;
+}
+
+.allGameData .gameData > p svg {
+  margin-bottom: -4px;
+}
+
+.allGameData .gameData > p:first-child svg {
+  margin-bottom: -2px;
+}
+
+.allGameData .gameData > p:last-child svg {
+  margin-bottom: -2px;
+}
+
+.gameData p {
+  background-color: var(--secondary-color);
+  padding: 10px 20px;
+  border-radius: 14px;
+}
+
+.allGameData li {
+  list-style-position: outside;
+  margin-left: -25px;
+}
+
+.allGameData ul {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.allGameData h2 {
+  border: solid;
+  border-width: 0px 0px 2px 0px;
+  border-color: var(--blur-text);
+  padding-bottom: 20px;
+  margin: 40px 0px 20px 0px;
+}
+
+.gameDescription {
+  text-align: justify;
+  line-height: 25px;
+}
+
+.modal-content {
+  background-color: var(--background-color);
+}
+
+.modalForm,
+.modalForm form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+}
+
+.modalForm input,
+.modalForm textarea,
+.modalForm select {
+  display: flex;
+  height: 40px;
+  width: 100%;
+  border-radius: 14px;
+  background-color: var(--blur-text);
+  border: none;
+  color: var(--not-white);
+  padding: 0px 10px;
+}
+
+.inputDiv {
+  width: 45%;
+}
+
+.inputDiv input,
+.inputDiv textarea {
+  margin-top: 10px;
 }

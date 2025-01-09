@@ -64,7 +64,7 @@
                                 </svg>
 
                                 <p
-                                    th:text="${game.releaseDateFormatted}">Release
+                                    th:text="${#dates.format(game.releaseDateFormatted, 'yyyy')}">Release
                                     Date</p>
                             </div>
                         </div>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Your Cart</title>
+</head>
+<body>
+    <h1>Your Cart</h1>
+    
+    <!-- Error message if any -->
+    <div th:if="${error}" class="error-message">
+        <p th:text="${error}"></p>
+    </div>
+    
+    <!-- Cart items -->
+    <div th:if="${cartItems != null and !cartItems.empty}">
+        <div th:each="rental : ${cartItems}" class="cart-item">
+            <h3 th:text="${rental.game?.title ?: 'Unknown Title'}">Game Title</h3>
+            <p>Rental Period: 
+                <span th:text="${rental.rentalStartDate}"></span> to 
+                <span th:text="${rental.rentalEndDate}"></span>
+            </p>
+            <p>Price: RM<span th:text="${rental.totalPrice}"></span></p>
+            <!-- Remove button -->
+            <form th:action="@{/rentals/{rentalId}/remove(rentalId=${rental.rentalId})}" method="post">
+                <button type="submit">Remove</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Empty cart message -->
+    <div th:if="${cartItems == null or cartItems.empty}">
+        <p>Your cart is empty</p>
+    </div>
+    
+    <!-- Navigation links -->
+    <div class="navigation">
+        <a href="/games">Continue Shopping</a>
+         <!-- Proceed to Checkout button -->
+           <form th:action="@{/rentals/checkout}" method="post">
+               <button type="submit" class="button">Proceed to Checkout</button>
+           </form>
+
+    </div>
+</body>
+</html>

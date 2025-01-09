@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Rental Successful</title>
+</head>
+<body>
+    <div class="success-container">
+        <h1>Rental Successful!</h1>
+        <p>Visit the <strong>“Rentals”</strong> page to view the details of your game rental.</p>
+
+        <div class="buttons">
+            <!-- Use Thymeleaf's @{} syntax for URL construction -->
+            <a th:href="@{/rentals/history}" class="button">View Rentals</a>
+            <a th:href="@{/games}" class="button">Browse More Games</a>
+        </div>
+        
+    </div>
+</body>
+</html>

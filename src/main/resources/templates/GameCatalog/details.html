@@ -153,7 +153,14 @@
           <div class="singleReviewContent">
             <p><strong th:text="${review.user.username}">Username</strong></p>
             <p th:text="${review.feedback}">Feedback</p>
-            <p>Rating: <span th:text="${review.reviews}">Rating</span></p>
+            <p><svg width="19" height="18" viewBox="0 0 19 18" fill="none"
+                style="margin-bottom: -3px;"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M9.5 0L11.6329 6.56434H18.535L12.9511 10.6213L15.084 17.1857L9.5 13.1287L3.91604 17.1857L6.04892 10.6213L0.464963 6.56434H7.36712L9.5 0Z"
+                  fill="#FFAE00" />
+              </svg>
+              <span th:text="${review.reviews}">Rating</span></p>
           </div>
           <div sec:authorize="hasRole('ADMIN')">
             <form th:action="@{/reviews/delete/{id}(id=${review.id})}"

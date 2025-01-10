@@ -126,7 +126,8 @@
           <div class="inputDivParent">
             <div class="inputDiv">
               <label for="feedback">Feedback</label>
-              <textarea id="feedback" name="feedback" required></textarea>
+              <textarea maxlength="129" id="feedback" name="feedback"
+                required></textarea>
             </div>
             <div class="inputDiv">
               <input type="hidden" name="gameId" th:value="${game.id}" />
@@ -147,16 +148,22 @@
         </form>
       </div>
       <h2>Reviews</h2>
-      <div th:each="review : ${reviews}">
-        <p><strong th:text="${review.user.username}">Username</strong></p>
-        <p th:text="${review.feedback}">Feedback</p>
-        <p>Rating: <span th:text="${review.reviews}">Rating</span></p>
-        <div sec:authorize="hasRole('ADMIN')">
-          <form
-            th:action="@{/reviews/delete/{id}(id=${review.id})}"
-            method="post">
-            <button type="submit">Delete Review</button>
-          </form>
+      <div class="allReviews">
+        <div class="singleReview" th:each="review : ${reviews}">
+          <div class="singleReviewContent">
+            <p><strong th:text="${review.user.username}">Username</strong></p>
+            <p th:text="${review.feedback}">Feedback</p>
+            <p>Rating: <span th:text="${review.reviews}">Rating</span></p>
+          </div>
+          <div sec:authorize="hasRole('ADMIN')">
+            <form
+              th:action="@{/reviews/delete/{id}(id=${review.id})}"
+              method="post">
+              <div class="buttonDiv">
+                <button type="submit">Delete Review</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>

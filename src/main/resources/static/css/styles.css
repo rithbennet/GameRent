@@ -367,3 +367,42 @@ nav li svg {
   place-self: end;
   margin-top: 20px;
 }
+
+.singleReview {
+  display: flex;
+  width: 45%;
+  background-color: var(--secondary-color);
+  padding: 20px;
+  border-radius: 20px;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.singleReview p {
+  margin: 0px;
+  padding: 0px;
+}
+
+.singleReview .buttonDiv {
+  place-self: end;
+}
+
+.allReviews {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.singleReview p {
+  width: 100%;
+  text-align: justify;
+  word-break: break-all;
+  white-space: normal;
+  line-height: 22px;
+}
+
+.singleReviewContent {
+  height: 90%;
+}

@@ -527,3 +527,14 @@ td {
 .rentalsButtons {
   margin: 20px 0px;
 }
+
+.favoriteGames .singleGame {
+  gap: 20px;
+}
+
+.dataDivParent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

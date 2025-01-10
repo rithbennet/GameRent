@@ -85,6 +85,7 @@
             <!-- Add Game Modal -->
             <div id="addGameModal" class="modal">
                 <div class="modal-content">
+
                     <div class="modalForm">
                         <h2>Add New Game</h2>
                         <form th:action="@{/games}" method="post">
@@ -101,7 +102,8 @@
                             <div class="inputDiv">
                                 <label for="platform">Platform</label>
                                 <input type="text" id="platform" name="platform"
-                                    required></div>
+                                    required>
+                            </div>
                             <div class="inputDiv">
                                 <label for="pricePerDay">Price per Day</label>
                                 <input type="number" id="pricePerDay"
@@ -144,60 +146,85 @@
             <!-- Edit Game Modal -->
             <div id="editGameModal" class="modal">
                 <div class="modal-content">
-                    <span class="close">&times;</span>
                     <h2>Edit Game</h2>
                     <form th:action="@{/games}" method="post">
-                        <input type="hidden" id="editGameId" name="id">
-                        <label for="editTitle">Title:</label>
-                        <input type="text" id="editTitle" name="title"
-                            required>
-                        <label for="editGenre">Genre:</label>
-                        <input type="text" id="editGenre" name="genre"
-                            required>
-                        <label for="editPlatform">Platform:</label>
-                        <input type="text" id="editPlatform" name="platform"
-                            required>
-                        <label for="editPricePerDay">Price per Day:</label>
-                        <input type="number" id="editPricePerDay"
-                            name="pricePerDay"
-                            required>
-                        <label for="editReleaseDate">Release Date:</label>
-                        <input type="date" id="editReleaseDate"
-                            name="releaseDate"
-                            required>
-                        <label for="editRequirementMemory">Memory
-                            Requirement:</label>
-                        <input type="text" id="editRequirementMemory"
-                            name="requirementMemory" required>
-                        <label for="editRequirementProcessor">Processor
-                            Requirement:</label>
-                        <input type="text" id="editRequirementProcessor"
-                            name="requirementProcessor" required>
-                        <label for="editRequirementGraphics">Graphics
-                            Requirement:</label>
-                        <input type="text" id="editRequirementGraphics"
-                            name="requirementGraphics" required>
-                        <label for="editRequirementStorage">Storage
-                            Requirement:</label>
-                        <input type="text" id="editRequirementStorage"
-                            name="requirementStorage" required>
-                        <label for="editDescription">Description:</label>
-                        <textarea id="editDescription" name="description"
-                            required></textarea>
-                        <button type="submit">Save Changes</button>
-                    </form>
+                        <div class="modalForm">
+                            <div class="inputDiv">
+                                <input type="hidden" id="editGameId" name="id">
+                                <label for="editTitle">Title</label>
+                                <input type="text" id="editTitle" name="title"
+                                    required>
+                                <label for="editGenre">Genre</label>
+                                <input type="text" id="editGenre" name="genre"
+                                    required>
+                            </div>
+                            <div class="inputDiv">
+                                <label for="editPlatform">Platform</label>
+                                <input type="text" id="editPlatform"
+                                    name="platform"
+                                    required>
+                                <label for="editPricePerDay">Price per
+                                    Day</label>
+                                <input type="number" id="editPricePerDay"
+                                    name="pricePerDay"
+                                    required>
+                            </div>
+                            <div class="inputDiv">
+                                <label for="editReleaseDate">Release
+                                    Date</label>
+                                <input type="date" id="editReleaseDate"
+                                    name="releaseDate"
+                                    required>
+                                <label for="editRequirementMemory">Memory
+                                    Requirement</label>
+                                <input type="text" id="editRequirementMemory"
+                                    name="requirementMemory" required>
+                            </div>
+                            <div class="inputDiv">
+                                <label for="editRequirementProcessor">Processor
+                                    Requirement</label>
+                                <input type="text" id="editRequirementProcessor"
+                                    name="requirementProcessor" required>
+                                <label for="editRequirementGraphics">Graphics
+                                    Requirement</label>
+                                <input type="text" id="editRequirementGraphics"
+                                    name="requirementGraphics" required>
+                            </div>
+                            <div class="inputDiv inputDivFullWidth">
+
+                                <label for="editRequirementStorage">Storage
+                                    Requirement</label>
+                                <input type="text" id="editRequirementStorage"
+                                    name="requirementStorage" required>
+                            </div>
+                            <div class="inputDiv inputDivFullWidth">
+
+                                <label
+                                    for="editDescription">Description</label>
+                                <textarea id="editDescription"
+                                    name="description"
+                                    required></textarea>
+                            </div>
+                            <div class="buttonDiv">
+                                <button type="submit">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
-            <!-- Delete Confirmation Modal -->
-            <div id="deleteGameModal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <h2>Delete Game</h2>
-                    <p id="deleteMessage"></p>
-                    <button id="confirmDeleteButton">Yes</button>
-                    <button id="cancelDeleteButton">No</button>
-                </div>
-            </div>
-            <script th:src="@{/js/modal.js}"></script>
-        </body>
-    </html>
+                <!-- Delete Confirmation Modal -->
+                <div id="deleteGameModal" class="modal">
+                    <div class="modal-content">
+                        <div class="modalForm">
+
+                            <h2>Delete Game</h2>
+                            <p id="deleteMessage"></p>
+                            <div class="buttonDiv">
+
+                                <button id="confirmDeleteButton">Yes</button>
+                                <button id="cancelDeleteButton">No</button>
+                            </div>
+                        </div>
+                    </div>
+                    <script th:src="@{/js/modal.js}"></script>
+                </body>
+            </html>

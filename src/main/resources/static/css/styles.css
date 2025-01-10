@@ -294,3 +294,27 @@ nav li svg {
   align-items: center;
   justify-content: center;
 }
+
+.inputDivFullWidth {
+  width: 96%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-left: 20px;
+  margin-top: -20px;
+}
+
+.inputDivFullWidth textarea {
+  height: 100px;
+  padding: 20px;
+  text-align: justify;
+}
+
+#editGameModal .inputDiv {
+  display: flex;
+  flex-direction: column;
+}
+
+#editGameModal .inputDiv label {
+  margin-top: 20px;
+}

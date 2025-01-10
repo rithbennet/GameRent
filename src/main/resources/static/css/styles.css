@@ -538,3 +538,7 @@ td {
   justify-content: center;
   align-items: center;
 }
+
+.inputDivFullWidth textarea {
+  width: 94% !important;
+}

@@ -332,3 +332,38 @@ nav li svg {
 .newGame {
   margin-top: 0px;
 }
+
+.AddReviewForm .inputDiv {
+  display: flex;
+  flex-direction: column;
+}
+
+.AddReviewForm .inputDivParent {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.AddReviewForm .inputDiv:first-child {
+  width: 80%;
+}
+
+.AddReviewForm .inputDiv:last-child {
+  width: 20%;
+}
+
+.AddReviewForm .inputDiv input,
+.AddReviewForm .inputDiv textarea {
+  display: flex;
+  height: 40px;
+  border-radius: 14px;
+  background-color: var(--blur-text);
+  border: none;
+  color: var(--not-white);
+  padding: 10px;
+}
+
+.AddReviewForm .buttonDiv {
+  place-self: end;
+  margin-top: 20px;
+}

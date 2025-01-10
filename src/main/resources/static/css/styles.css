@@ -318,3 +318,17 @@ nav li svg {
 #editGameModal .inputDiv label {
   margin-top: 20px;
 }
+
+#deleteGameModal .modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#deleteGameModal .modal-content {
+  width: 500px;
+}
+
+.newGame {
+  margin-top: 0px;
+}

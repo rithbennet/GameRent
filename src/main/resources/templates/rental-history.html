@@ -1,82 +1,78 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Rentals History</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
+    <head>
+        <meta charset="UTF-8">
+        <title>Rentals History</title> <link rel="stylesheet"
+            th:href="@{/css/styles.css}" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+            rel="stylesheet" />
+        <style>
+        
     </style>
-</head>
-<body>
-<h1>Active Rentals</h1>
-<div th:if="${#lists.isEmpty(activeRentals)}">
-    <p>No active rentals found.</p>
-</div>
-<table th:if="${!#lists.isEmpty(activeRentals)}">
-    <thead>
-    <tr>
-        <th>Rental ID</th>
-        <th>Start Date</th>
-        <th>End Date</th>
-        <th>Total Price</th>
-        <th>User ID</th>
-        <th>Game Title</th>
-        <th>Status</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="rental : ${activeRentals}">
-        <td th:text="${rental.rentalId}"></td>
-        <td th:text="${rental.rentalStartDate}"></td>
-        <td th:text="${rental.rentalEndDate}"></td>
-        <td th:text="${rental.totalPrice}"></td>
-        <td th:text="${rental.userId}"></td>
-        <td th:text="${rental.game.title}"></td>
-        <td th:text="${rental.rentalStatus}"></td>
-    </tr>
-    </tbody>
-</table>
+    </head>
+    <body>
+        <div th:insert="fragments/nav :: nav"></div>
 
-<h1>Previous Rentals</h1>
-<div th:if="${#lists.isEmpty(previousRentals)}">
-    <p>No previous rentals found.</p>
-</div>
-<table th:if="${!#lists.isEmpty(previousRentals)}">
-    <thead>
-    <tr>
-        <th>Rental ID</th>
-        <th>Start Date</th>
-        <th>End Date</th>
-        <th>Total Price</th>
-        <th>User ID</th>
-        <th>Game Title</th>
-        <th>Status</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="rental : ${previousRentals}">
-        <td th:text="${rental.rentalId}"></td>
-        <td th:text="${rental.rentalStartDate}"></td>
-        <td th:text="${rental.rentalEndDate}"></td>
-        <td th:text="${rental.totalPrice}"></td>
-        <td th:text="${rental.userId}"></td>
-        <td th:text="${rental.game.title}"></td>
-        <td th:text="${rental.rentalStatus}"></td>
-    </tr>
-    </tbody>
-</table>
-<a href="/games">Continue Shopping</a>
-</body>
+        <h1>Active Rentals</h1>
+        <div th:if="${#lists.isEmpty(activeRentals)}">
+            <p>No active rentals found.</p>
+        </div>
+        <table th:if="${!#lists.isEmpty(activeRentals)}">
+            <thead>
+                <tr>
+                    <th>Rental ID</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Total Price</th>
+                    <th>Game Title</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="rental : ${activeRentals}">
+                    <td th:text="${rental.rentalId}"></td>
+                    <td th:text="${rental.rentalStartDate}"></td>
+                    <td th:text="${rental.rentalEndDate}"></td>
+                    <td th:text="'RM ' + ${rental.totalPrice}"></td>
+                    <td th:text="${rental.game.title}"></td>
+                    <td th:text="${rental.rentalStatus}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h1>Previous Rentals</h1>
+        <div th:if="${#lists.isEmpty(previousRentals)}">
+            <p>No previous rentals found.</p>
+        </div>
+        <table th:if="${!#lists.isEmpty(previousRentals)}">
+            <thead>
+                <tr>
+                    <th>Rental ID</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Total Price</th>
+                    <th>User ID</th>
+                    <th>Game Title</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="rental : ${previousRentals}">
+                    <td th:text="${rental.rentalId}"></td>
+                    <td th:text="${rental.rentalStartDate}"></td>
+                    <td th:text="${rental.rentalEndDate}"></td>
+                    <td th:text="${rental.totalPrice}"></td>
+                    <td th:text="${rental.userId}"></td>
+                    <td th:text="${rental.game.title}"></td>
+                    <td th:text="${rental.rentalStatus}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="buttonDiv rentalsButtons">
+            <a href="/games">Continue Shopping</a>
+        </div>
+    </body>
 </html>

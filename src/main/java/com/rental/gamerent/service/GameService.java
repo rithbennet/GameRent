@@ -1,13 +1,12 @@
 package com.rental.gamerent.service;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.rental.gamerent.model.Game;
+import com.rental.gamerent.repo.GameRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.rental.gamerent.model.Game;
-import com.rental.gamerent.repo.GameRepo;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GameService {

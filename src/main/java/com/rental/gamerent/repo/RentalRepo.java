@@ -15,11 +15,11 @@ public interface RentalRepo extends JpaRepository<Rental, Long> {
 
     // Active rentals within the date range
     @Query("SELECT r FROM Rental r WHERE r.userId = :userId AND r.rentalStatus = :status AND r.rentalStartDate <= :today AND r.rentalEndDate >= :today")
-List<Rental> findByUserIdAndRentalStatusAndDateRange(
-    @Param("userId") Long userId,
-    @Param("status") RentalStatus status,
-    @Param("today") LocalDate today
-);
+    List<Rental> findByUserIdAndRentalStatusAndDateRange(
+            @Param("userId") Long userId,
+            @Param("status") RentalStatus status,
+            @Param("today") LocalDate today
+    );
 
     // Expired rentals
     List<Rental> findByRentalStatusAndRentalEndDateBefore(RentalStatus status, LocalDate date);

@@ -1,31 +1,30 @@
 package com.rental.gamerent.controller;
 
 import com.rental.gamerent.dto.RegistrationDTO;
-import jakarta.servlet.http.HttpServletRequest;
 import com.rental.gamerent.service.UserService;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-import org.springframework.stereotype.Controller;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 
 
 @Controller
 public class RegistrationController {
 
     private static final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
-    
+
     @Autowired
     private UserService userService;
     @Autowired
     private AuthenticationManager authenticationManager;
-
 
 
     @PostMapping("/register")
@@ -37,8 +36,8 @@ public class RegistrationController {
 
         userService.registerUser(registrationDTO.getUsername(), registrationDTO.getPassword(), registrationDTO.getEmail());
 
-         // Auto-login after successful registration
-         try {
+        // Auto-login after successful registration
+        try {
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(registrationDTO.getUsername(), registrationDTO.getPassword());
             Authentication authentication = authenticationManager.authenticate(authToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -52,7 +51,7 @@ public class RegistrationController {
 
         model.addAttribute("success", "Registration successful");
         return "redirect:/games";
-     }
+    }
 
 
 }

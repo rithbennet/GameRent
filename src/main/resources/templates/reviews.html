@@ -113,7 +113,7 @@
 
     <!-- Search Form -->
     <form action="/reviews" method="get">
-        <input type="text" name="title" placeholder="Enter game title" th:value="${param.title}" />
+        <input name="title" placeholder="Enter game title" th:value="${param.title}" type="text"/>
         <button type="submit">Search</button>
     </form>
 
@@ -146,9 +146,9 @@
             <!-- Add a Review Form -->
             <h3>Add a Review:</h3>
             <form action="/reviews/add" method="post">
-                <input type="hidden" name="gameId" th:value="${entry.key.id}" />
+                <input name="gameId" th:value="${entry.key.id}" type="hidden"/>
                 <label>Rating:</label>
-                <input type="number" name="reviews" min="1" max="5" required />
+                <input max="5" min="1" name="reviews" required type="number"/>
                 <br>
                 <label>Feedback:</label>
                 <textarea name="feedback" placeholder="Enter your feedback" required></textarea>

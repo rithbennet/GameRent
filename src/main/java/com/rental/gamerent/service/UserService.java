@@ -1,4 +1,5 @@
 package com.rental.gamerent.service;
+
 import com.rental.gamerent.model.Users;
 import com.rental.gamerent.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,13 +9,12 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
 
+    private static final String DEFAULT_ROLE = "CUSTOMER";
     @Autowired
     private UserRepo userRepo;
 
-    private static final String DEFAULT_ROLE = "CUSTOMER";
-
-    public void registerUser(String username, String password, String email){
-        if(userRepo.findByUsername(username).isPresent()) {
+    public void registerUser(String username, String password, String email) {
+        if (userRepo.findByUsername(username).isPresent()) {
             throw new IllegalStateException("Username is already taken!");
         }
 

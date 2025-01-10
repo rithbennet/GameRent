@@ -1,70 +1,71 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Renting Form</title>
-        <link rel="stylesheet" th:href="@{/css/styles.css}" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
+<head>
+    <title>Renting Form</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link
             href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-            rel="stylesheet" />
-    </head>
-    <body>
-        <div th:insert="fragments/nav :: nav"></div>
+            rel="stylesheet"/>
+</head>
+<body>
+<div th:insert="fragments/nav :: nav"></div>
 
-        <div class="rental-container">
-            <div class="rental-card">
+<div class="rental-container">
+    <div class="rental-card">
 
-                <!-- Game Info Section -->
-                <div class="game-info" th:if="${selectedGame}">
-                    <h1 th:text="${selectedGame.title}">Game Title</h1>
-                </div>
-
-                <form class="rentalForm" action="/rentals/create" method="post">
-                    <div class="game-header inputDiv">
-                        <label for="platform">Price per day</label>
-
-                        <p class="price-info"
-                            th:text="'RM' + ${selectedGame.pricePerDay}">
-                        </p>
-                    </div>
-                    <!-- Hidden Fields -->
-                    <input type="hidden" name="gameId"
-                        th:value="${selectedGame.id}">
-                    <input type="hidden" name="userId" th:value="${userId}">
-
-                    <!-- Platform Field (Read-only) -->
-                    <div class="inputDiv">
-                        <label for="platform">Platform</label>
-                        <p id="platform" th:text="${selectedGame.platform}"></p>
-                    </div>
-
-                    <!-- Duration Selection -->
-                    <div class="inputDiv">
-                        <label for="duration">Duration</label>
-                        <select name="duration" id="duration" required>
-                            <option value="7">1 week</option>
-                            <option value="14">2 weeks</option>
-                            <option value="30">1 month</option>
-                            <option value="60">2 months</option>
-                        </select>
-                    </div>
-
-                    <!-- Calculate dates based on duration -->
-                    <input type="hidden" name="startDate" id="startDate">
-                    <input type="hidden" name="endDate" id="endDate">
-                    <div class="buttonDiv">
-                        <button type="submit" class="rent-button">Rent
-                            Game</button>
-                    </div>
-                </form>
-            </div>
+        <!-- Game Info Section -->
+        <div class="game-info" th:if="${selectedGame}">
+            <h1 th:text="${selectedGame.title}">Game Title</h1>
         </div>
 
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script>
-    document.addEventListener('DOMContentLoaded', function() {
+        <form action="/rentals/create" class="rentalForm" method="post">
+            <div class="game-header inputDiv">
+                <label for="platform">Price per day</label>
+
+                <p class="price-info"
+                   th:text="'RM' + ${selectedGame.pricePerDay}">
+                </p>
+            </div>
+            <!-- Hidden Fields -->
+            <input name="gameId" th:value="${selectedGame.id}"
+                   type="hidden">
+            <input name="userId" th:value="${userId}" type="hidden">
+
+            <!-- Platform Field (Read-only) -->
+            <div class="inputDiv">
+                <label for="platform">Platform</label>
+                <p id="platform" th:text="${selectedGame.platform}"></p>
+            </div>
+
+            <!-- Duration Selection -->
+            <div class="inputDiv">
+                <label for="duration">Duration</label>
+                <select id="duration" name="duration" required>
+                    <option value="7">1 week</option>
+                    <option value="14">2 weeks</option>
+                    <option value="30">1 month</option>
+                    <option value="60">2 months</option>
+                </select>
+            </div>
+
+            <!-- Calculate dates based on duration -->
+            <input id="startDate" name="startDate" type="hidden">
+            <input id="endDate" name="endDate" type="hidden">
+            <div class="buttonDiv">
+                <button class="rent-button" type="submit">Rent
+                    Game
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
         // Function to update hidden date fields based on duration
         function updateDates() {
             const duration = parseInt(document.getElementById('duration').value);
@@ -83,5 +84,5 @@
         updateDates();
     });
 </script>
-    </body>
+</body>
 </html>

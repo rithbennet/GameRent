@@ -26,6 +26,7 @@ public class Review {
         this.game = game;
         this.user = user;
     }
+
     // Getters and Setters
     public Long getId() {
         return id;

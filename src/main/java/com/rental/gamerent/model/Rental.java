@@ -1,9 +1,10 @@
 package com.rental.gamerent.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "rentals")

@@ -1,9 +1,10 @@
 package com.rental.gamerent.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.rental.gamerent.model.Game;
+import com.rental.gamerent.model.Review;
+import com.rental.gamerent.model.UserPrincipal;
+import com.rental.gamerent.service.GameService;
+import com.rental.gamerent.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,11 +15,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.rental.gamerent.model.Game;
-import com.rental.gamerent.model.Review;
-import com.rental.gamerent.model.UserPrincipal;
-import com.rental.gamerent.service.GameService;
-import com.rental.gamerent.service.ReviewService;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ReviewsController {
@@ -54,7 +53,7 @@ public class ReviewsController {
 
     @PostMapping("reviews/add")
     public String addReview(@RequestParam Long gameId, @RequestParam Long reviews,
-            @RequestParam String feedback) {
+                            @RequestParam String feedback) {
         Long userId = getCurrentUserId();
         Review review = new Review();
         review.setReviews(reviews);
@@ -71,8 +70,7 @@ public class ReviewsController {
 
     private Long getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof UserPrincipal) {
-            UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        if (authentication != null && authentication.getPrincipal() instanceof UserPrincipal userPrincipal) {
             return userPrincipal.getId();
         }
         throw new IllegalStateException("User not authenticated");

@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Rental Successful</title>
-        <link rel="stylesheet" th:href="@{/css/styles.css}" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
+<head>
+    <title>Rental Successful</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link
             href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-            rel="stylesheet" />
-    </head>
-    <body>
-        <div th:insert="fragments/nav :: nav"></div>
+            rel="stylesheet"/>
+</head>
+<body>
+<div th:insert="fragments/nav :: nav"></div>
 
-        <div class="success-container">
-            <h1>Rental Successful!</h1>
-            <p>Visit the <strong>“Rentals”</strong> page to view the details of
-                your game rental.</p>
+<div class="success-container">
+    <h1>Rental Successful!</h1>
+    <p>Visit the <strong>“Rentals”</strong> page to view the details of
+        your game rental.</p>
 
-            <div class="buttons">
-                <!-- Use Thymeleaf's @{} syntax for URL construction -->
-                <div class="buttonDiv">
-                    <a th:href="@{/rentals/history}" class="button">View
-                        Rentals</a>
-                    <a th:href="@{/games}" class="button">Browse More Games</a>
-                </div>
-            </div>
-
+    <div class="buttons">
+        <!-- Use Thymeleaf's @{} syntax for URL construction -->
+        <div class="buttonDiv">
+            <a class="button" th:href="@{/rentals/history}">View
+                Rentals</a>
+            <a class="button" th:href="@{/games}">Browse More Games</a>
         </div>
-    </body>
+    </div>
+
+</div>
+</body>
 </html>

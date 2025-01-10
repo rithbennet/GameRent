@@ -1,10 +1,9 @@
 package com.rental.gamerent.controller;
 
-import com.rental.gamerent.model.Game;
-import com.rental.gamerent.model.Review;
-import com.rental.gamerent.model.UserPrincipal;
-import com.rental.gamerent.service.GameService;
-import com.rental.gamerent.service.ReviewService;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,9 +14,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.rental.gamerent.model.Game;
+import com.rental.gamerent.model.Review;
+import com.rental.gamerent.model.UserPrincipal;
+import com.rental.gamerent.service.GameService;
+import com.rental.gamerent.service.ReviewService;
 
 @Controller
 public class ReviewsController {
@@ -62,13 +63,13 @@ public class ReviewsController {
         return "redirect:/games/" + gameId;
     }
 
-     @PostMapping("/delete/{id}")
+    @PostMapping("/reviews/delete/{id}")
     public String deleteReview(@PathVariable Long id, @RequestParam("gameId") Long gameId) {
         reviewService.deleteReviewById(id);
         return "redirect:/games/" + gameId;
     }
 
-     private Long getCurrentUserId() {
+    private Long getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof UserPrincipal) {
             UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
@@ -77,5 +78,4 @@ public class ReviewsController {
         throw new IllegalStateException("User not authenticated");
     }
 
-    
 }

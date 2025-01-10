@@ -156,9 +156,9 @@
             <p>Rating: <span th:text="${review.reviews}">Rating</span></p>
           </div>
           <div sec:authorize="hasRole('ADMIN')">
-            <form
-              th:action="@{/reviews/delete/{id}(id=${review.id})}"
+            <form th:action="@{/reviews/delete/{id}(id=${review.id})}"
               method="post">
+              <input type="hidden" name="gameId" th:value="${game.id}" />
               <div class="buttonDiv">
                 <button type="submit">Delete Review</button>
               </div>

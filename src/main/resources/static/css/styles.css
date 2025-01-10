@@ -472,3 +472,16 @@ nav li svg {
 .rentalSuccess a {
   margin-top: 20px;
 }
+
+.navigation .buttonDiv {
+  margin-top: 40px;
+}
+
+.rentedGames .singleGame p,
+.rentedGames .singleGame h1,
+.rentedGames .singleGame h2,
+.rentedGames .singleGame h3 {
+  margin: 0px;
+  padding: 0px;
+  margin-bottom: 20px;
+}

@@ -406,3 +406,55 @@ nav li svg {
 .singleReviewContent {
   height: 90%;
 }
+
+.rentalForm .inputDiv select,
+.rentalForm .inputDiv p,
+.game-info .inputDiv p {
+  display: flex;
+  border-radius: 14px;
+  background-color: var(--blur-text);
+  border: none;
+  color: var(--not-white);
+  padding: 10px;
+  width: 300px;
+  font-size: 16px;
+  margin-top: 5px;
+  width: 300px;
+}
+
+.rentalForm .inputDiv select {
+  width: 320px;
+}
+
+.rentalForm {
+  width: 1000px;
+  justify-content: center;
+  align-items: center;
+}
+
+.rentalForm .inputDiv {
+  margin-top: 20px;
+  width: 320px;
+}
+
+.rentalForm .inputDiv span,
+.game-info .inputDiv span {
+  margin: 0px;
+  padding: 0px;
+}
+
+.rentalForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.rentalForm .buttonDiv {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.game-info h1 {
+  text-align: center;
+}

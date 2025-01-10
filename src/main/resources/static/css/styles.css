@@ -140,6 +140,7 @@ body {
 }
 
 .buttonDiv button:last-child,
+.buttonDiv a:last-child,
 .newGame {
   background-color: var(--highlight-color);
   border: none;
@@ -484,4 +485,19 @@ nav li svg {
   margin: 0px;
   padding: 0px;
   margin-bottom: 20px;
+}
+
+.success-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.success-container p,
+.success-container h1 {
+  text-align: center;
+}
+
+.success-container .buttonDiv {
+  margin-top: 40px;
 }

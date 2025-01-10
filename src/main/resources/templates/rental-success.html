@@ -1,17 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Rental Success</title>
-</head>
-<body>
-    <h1>Added To Cart!</h1>
-    <div th:if="${rental}">
-        <p>Your rental has been added to cart.</p>
-        <p>Start Date: <span th:text="${rental.rentalStartDate}"></span></p>
-        <p>End Date: <span th:text="${rental.rentalEndDate}"></span></p>
-        <p>Total Price: $<span th:text="${rental.totalPrice}"></span></p>
-    </div>
-    <a href="/rentals/cart">Go to Cart</a>
-    <a href="/games">Back to Game List</a>
-</body>
+    <head>
+        <title>Rental Success</title>
+        <link rel="stylesheet" th:href="@{/css/styles.css}" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+            rel="stylesheet" />
+    </head>
+    <body>
+        <div th:insert="fragments/nav :: nav"></div>
+
+        <div class="rentalSuccess">
+            <h1 class="centered">Added To Cart!</h1>
+            <div th:if="${rental}">
+                <p class="centered">Your rental has been added to cart.</p>
+                <p class="centered">Start Date: <span
+                        th:text="${rental.rentalStartDate}"></span></p>
+                <p class="centered">End Date: <span
+                        th:text="${rental.rentalEndDate}"></span></p>
+                <p class="centered">Total Price: RM<span
+                        th:text="${#numbers.formatDecimal(rental.totalPrice, 1, 'COMMA', 2, 'POINT')}"></span></p>
+            </div>
+            <div class="buttonDiv">
+                <a href="/games">Return to home</a>
+            </div>
+        </div>
+    </body>
 </html>

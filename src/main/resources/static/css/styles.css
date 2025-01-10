@@ -458,3 +458,17 @@ nav li svg {
 .game-info h1 {
   text-align: center;
 }
+
+.centered {
+  text-align: center !important;
+}
+
+.rentalSuccess {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.rentalSuccess a {
+  margin-top: 20px;
+}
